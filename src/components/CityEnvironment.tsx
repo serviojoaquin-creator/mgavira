@@ -1,3 +1,4 @@
+import { StaticCity } from './StaticCity'
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
@@ -297,14 +298,16 @@ function AvenueIdentity() {
 export function CityEnvironment({ compact }: { compact: boolean }) {
   return <group>
     <mesh position={[routeLength / 2 - 8, -.12, 0]} receiveShadow><boxGeometry args={[routeLength + 100, .22, 240]} /><meshStandardMaterial color="#94948b" roughness={1} /></mesh>
+    <StaticCity>
     <RoadSystem />
     <DestinationStop />
     <ModernBuildings />
-    <Vegetation compact={compact} />
     <ModernStreetFurniture />
     <CityStreetDetails />
     <AvenueIdentity />
     <ElevatedStreetSigns />
+    </StaticCity>
+    <Vegetation compact={compact} />
     <CityLife compact={compact} />
   </group>
 }

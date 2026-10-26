@@ -65,7 +65,7 @@ export function VehicleController({ progress, visualProgress }: {
   }, [scene])
 
   useFrame((_, delta) => {
-    visualProgress.current = MathUtils.damp(visualProgress.current, progress.current, 4.5, delta)
+    visualProgress.current = MathUtils.damp(visualProgress.current, progress.current, 6, Math.min(delta, .05))
     const p = visualProgress.current
     const { t, offset } = driveState(p)
     const { point, tangent } = atRoad(t, offset)

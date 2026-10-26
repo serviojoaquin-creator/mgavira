@@ -1,7 +1,7 @@
 import { useLayoutEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import { Color, InstancedMesh, Matrix4, Mesh, MeshStandardMaterial, Quaternion, Vector3 } from 'three'
+import { Frustum, Sphere, Color, InstancedMesh, Matrix4, Mesh, MeshStandardMaterial, Quaternion, Vector3 } from 'three'
 import { atRoad, cityIntersections, routeLength, signStops } from '../experience/route'
 import { wheelRotation } from '../experience/wheels'
 
@@ -18,7 +18,8 @@ function TrafficFleet({ count }: { count: number }) {
     copy.traverse(object => { if (object instanceof Mesh) meshes.push(object) })
     return { copy, meshes, wheels: ['FL', 'FR', 'RL', 'RR'].map(code => copy.getObjectByName(`Wheel_${code}_Spin`)) }
   }), [scene, count])
-  const scratch = useMemo(() => ({ matrix: new Matrix4(), pose: new Matrix4(),
+  const tint = useMemo(() => new Color(), [])
+  const scratch = useMemo(() => ({ frustum: new Frustum(), view: new Matrix4(), bounds: new Sphere(new Vector3(), 3), matrix: new Matrix4(), pose: new Matrix4(),
     position: new Vector3(), rotation: new Quaternion(), scale: new Vector3(1,1,1), up: new Vector3(0,1,0) }), [])
   useLayoutEffect(() => {
     frames[0].meshes.forEach((mesh, part) => {
@@ -34,23 +35,36 @@ function TrafficFleet({ count }: { count: number }) {
       if (instance.instanceColor) instance.instanceColor.needsUpdate = true
     })
   }, [frames])
-  useFrame(({ clock }) => {
-    const distance = clock.elapsedTime * 4.6
+  const animationTime = useRef(0)
+  useFrame(({ camera }, delta) => {
+    animationTime.current += Math.min(delta, .05)
+    const distance = animationTime.current * 4.6
+    camera.updateMatrixWorld()
+    scratch.frustum.setFromProjectionMatrix(scratch.view.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse))
+    let visible = 0
     const { position, rotation, scale, pose, matrix, up } = scratch
     frames.forEach((frame, index) => {
       const t = .035 + ((.91 + index * .182 - distance / routeLength) % .91 + .91) % .91
       const { point, tangent } = atRoad(t, -1.45)
+      scratch.bounds.center.copy(point); scratch.bounds.center.y = .9
+      if (camera.position.distanceToSquared(point) > 22 * 22 && !scratch.frustum.intersectsSphere(scratch.bounds)) return
       position.set(point.x, .025, point.z)
       rotation.setFromAxisAngle(up, Math.atan2(-tangent.z, tangent.x) + Math.PI)
       pose.compose(position, rotation, scale)
       frame.wheels.forEach(wheel => { if (wheel) wheel.rotation.y = wheelRotation(distance) })
       frame.copy.updateMatrixWorld(true)
       frame.meshes.forEach((mesh, part) => {
-        refs.current[part]?.setMatrixAt(index, matrix.multiplyMatrices(pose, mesh.matrixWorld))
+        const instance = refs.current[part]
+        if (!instance) return
+        instance.setMatrixAt(visible, matrix.multiplyMatrices(pose, mesh.matrixWorld))
+        const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material
+        const paint = material instanceof MeshStandardMaterial && material.name.includes('Pearl white')
+        instance.setColorAt(visible, tint.set(!paint ? '#ffffff' : index === 0 ? (/roof|pillar/i.test(mesh.name) ? '#d9af32' : '#20272b') : paintColors[index]))
       })
+      visible++
     })
-    refs.current.forEach(mesh => { if (mesh) mesh.instanceMatrix.needsUpdate = true })
-  })
+    refs.current.forEach(mesh => { if (mesh) { mesh.count = visible; mesh.instanceMatrix.needsUpdate = true; if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true } })
+  }, .1)
   return <group userData={{ excludeReflection: true }}>
     {frames[0].meshes.map((mesh, part) => <instancedMesh key={mesh.uuid}
       ref={node => { refs.current[part] = node }} args={[mesh.geometry, mesh.material, count]}
