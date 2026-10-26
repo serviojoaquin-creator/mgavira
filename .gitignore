@@ -1,0 +1,20 @@
+node_modules
+dist
+.DS_Store
+*.log
+*.tsbuildinfo
+.pnpm-store
+.sites-runtime
+work/
+*.zip
+*.blend
+*.blend1
+qa-*.html
+
+# Local tooling and credentials
+.openai/
+.vercel/
+outputs/
+.env
+.env.*
+!.env.example

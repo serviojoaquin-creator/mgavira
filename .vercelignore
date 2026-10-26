@@ -1,0 +1,12 @@
+node_modules
+dist
+.pnpm-store
+work
+outputs
+*.zip
+*.blend
+*.blend1
+*.log
+*.tsbuildinfo
+.sites-runtime
+qa-*.html
