@@ -125,3 +125,13 @@ La vista estática es una página editorial completa: portada fotográfica, nave
 Componentes: src/components/StaticOverview.tsx. Estilos independientes y limitados a .site-view-static: src/static-overview.css. Los datos y textos de las prestaciones se comparten con el recorrido 3D. La vista estática mantiene el Canvas desmontado y las imágenes inferiores se cargan de forma diferida.
 
 Se conservan los cuatro contactos de los carteles informativos. Se retiraron los ocho enlaces (dos caras por cartel) de los carteles publicitarios con fotografías. Publicación actual: aproximadamente 7,86 MB, dentro del presupuesto de 8 MB.
+
+### Nitidez y fluidez del recorrido
+
+- Render principal con MSAA 4x, resolución compartida entre canvas y postproceso, y recuperación suave de contraste.
+- Escala adaptativa entre 1.25x y 2x en pantallas habituales, con presupuesto de píxeles para resoluciones grandes. Prioriza reducir AO antes que resolución; se recupera de forma gradual y sin cambios durante el avance.
+- AO a media resolución y acabado de color en una sola pasada de salida. Los targets se redimensionan sin reconstruir el compositor.
+- Sombras de 2048 px estabilizadas en la cuadrícula del mapa; actualización de sombras limitada al estar detenido.
+- Peatones y tránsito fuera de cámara dejan de generar geometría innecesaria; el detalle facial distante se simplifica. Transformaciones de arquitectura precalculadas.
+- Compilación anticipada de materiales detrás de la pantalla de carga y pasos de animación acotados al volver de otra pestaña.
+- `node scripts/verify-render-quality.mjs` comprueba límites de resolución, rechazo de picos aislados y orden de adaptación. `?qualityAudit=1&view=3d` habilita métricas locales en `canvas.dataset.frameStats`, sin transmitir datos.
