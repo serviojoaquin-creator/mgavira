@@ -1,0 +1,155 @@
+import { useEffect, useMemo, useRef, useState, type MutableRefObject } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { CanvasTexture, Group, MathUtils, SRGBColorSpace } from 'three'
+import { atRoad, driveState } from '../experience/route'
+import { SignContactLink } from './SignContactLink'
+import { chapters, insuranceCoverage, insuranceSteps, reasons, services, signMessage, type PanelId } from '../data/site'
+
+const W = 1400, H = 1900
+const white = '#f3f7f3', muted = '#e0dae6', mint = '#cf98f0'
+
+function wrap(ctx: CanvasRenderingContext2D, value: string, x: number, y: number, max: number, leading: number) {
+  let line = ''
+  for (const word of value.split(' ')) {
+    const next = line ? `${line} ${word}` : word
+    if (line && ctx.measureText(next).width > max) {
+      ctx.fillText(line, x, y); y += leading; line = word
+    } else line = next
+  }
+  if (line) { ctx.fillText(line, x, y); y += leading }
+  return y
+}
+
+function createSignTexture(id: PanelId) {
+  const chapter = chapters.find(item => item.id === id)!
+  const index = chapters.findIndex(item => item.id === id) + 1
+  const canvas = document.createElement('canvas')
+  canvas.width = W; canvas.height = H
+  const header = canvas.getContext('2d')!
+  const body = document.createElement('canvas')
+  body.width = W; body.height = H
+  let ctx = header
+  const gradient = ctx.createLinearGradient(0, 0, W, H)
+  gradient.addColorStop(0, '#28212f'); gradient.addColorStop(1, '#141217')
+  ctx.fillStyle = gradient; ctx.fillRect(0, 0, W, H)
+  ctx.strokeStyle = '#a47ac0'; ctx.lineWidth = 12; ctx.strokeRect(28, 28, W - 56, H - 56)
+  ctx.strokeStyle = mint; ctx.lineWidth = 5; ctx.strokeRect(49, 49, W - 98, H - 98)
+  ctx.fillStyle = mint; ctx.fillRect(88, 97, 16, 80)
+  ctx.textBaseline = 'top'
+  ctx.fillStyle = muted; ctx.font = '700 35px Arial, sans-serif'
+  ctx.fillText('TRANSPORTE MGAVIRA  /  BUENOS AIRES', 134, 111)
+  ctx.textAlign = 'right'; ctx.fillText(`0${index} / 04`, 1305, 111); ctx.textAlign = 'left'
+  ctx.fillStyle = white; ctx.font = '800 88px Arial, sans-serif'
+  let y = wrap(ctx, chapter.sign, 94, 205, 1210, 103)
+  ctx.fillStyle = mint; ctx.fillRect(94, y + 12, 1210, 5)
+  y += 70
+  const bodyTop = y
+  ctx = body.getContext('2d')!
+  ctx.textBaseline = 'top'
+
+  const rows = (items: { title: string; text: string }[], start: number, dense = false) => {
+    let rowY = start
+    items.forEach((item, row) => {
+      ctx.fillStyle = mint; ctx.font = `700 ${dense ? 42 : 46}px Arial, sans-serif`; ctx.fillText(`0${row + 1}`, 96, rowY + 7)
+      ctx.fillStyle = white; ctx.font = `700 ${dense ? 52 : 62}px Arial, sans-serif`
+      let bodyY = wrap(ctx, item.title, 210, rowY, 1070, dense ? 64 : 75) + 9
+      ctx.fillStyle = muted; ctx.font = `400 ${dense ? 46 : 54}px Arial, sans-serif`
+      bodyY = wrap(ctx, item.text, 210, bodyY, 1070, dense ? 59 : 68)
+      rowY = bodyY + (dense ? 22 : 37)
+      ctx.fillStyle = '#786781'; ctx.fillRect(95, rowY, 1210, 2)
+      rowY += dense ? 20 : 31
+    })
+    return rowY
+  }
+
+  if (id === 'services') {
+    ctx.fillStyle = muted; ctx.font = '500 55px Arial, sans-serif'
+    y = wrap(ctx, chapter.heading, 95, y, 1180, 70) + 44
+    y = rows(services, y, true)
+    ctx.fillStyle = mint; ctx.font = '700 53px Arial, sans-serif'
+    y = wrap(ctx, 'Trabajamos con obras sociales y prepagas.', 95, y + 12, 1200, 68)
+  } else if (id === 'coverage') {
+    ctx.fillStyle = white; ctx.font = '700 72px Arial, sans-serif'
+    y = wrap(ctx, chapter.heading, 95, y + 24, 1180, 88) + 115
+    ctx.fillStyle = mint; ctx.font = '800 165px Arial, sans-serif'
+    ctx.fillText('CABA', 94, y); ctx.fillText('+', 582, y); ctx.fillText('AMBA', 722, y)
+    y += 260
+    ctx.fillStyle = white; ctx.font = '500 70px Arial, sans-serif'
+    y = wrap(ctx, 'Traslados en la Ciudad Autónoma de Buenos Aires y el Área Metropolitana de Buenos Aires.', 95, y, 1190, 91) + 105
+    ctx.fillStyle = muted; ctx.font = '400 62px Arial, sans-serif'
+    y = wrap(ctx, 'Consultanos por tu ubicación y los horarios que necesitás. Evaluamos cada solicitud según el recorrido.', 95, y, 1180, 82)
+  } else if (id === 'why') {
+    ctx.fillStyle = muted; ctx.font = '500 55px Arial, sans-serif'
+    y = wrap(ctx, chapter.heading, 95, y, 1180, 70) + 39
+    y = rows(reasons, y, true)
+    ctx.fillStyle = mint; ctx.font = '700 49px Arial, sans-serif'
+    y = wrap(ctx, '6 años de experiencia acompañando a las familias en sus necesidades de traslado.', 95, y + 6, 1190, 63)
+  } else {
+    ctx.fillStyle = muted; ctx.font = '500 54px Arial, sans-serif'
+    y = wrap(ctx, 'Trabajamos con obras sociales y prepagas y te orientamos durante la gestión.', 95, y + 4, 1190, 69) + 43
+    ctx.fillStyle = mint; ctx.font = '800 67px Arial, sans-serif'
+    y = wrap(ctx, insuranceCoverage.title, 95, y, 1190, 80) + 8
+    ctx.fillStyle = white; ctx.font = '500 48px Arial, sans-serif'
+    y = wrap(ctx, insuranceCoverage.text, 95, y, 1190, 61) + 8
+    ctx.fillStyle = muted; ctx.font = '400 41px Arial, sans-serif'
+    y = wrap(ctx, insuranceCoverage.requirements, 95, y, 1190, 53) + 35
+    y = rows(insuranceSteps.map(step => ({ title: step.title, text: step.text })), y, true)
+    ctx.fillStyle = mint; ctx.font = '500 43px Arial, sans-serif'
+    y = wrap(ctx, 'La disponibilidad y las autorizaciones están sujetas a evaluación y a las condiciones de cada cobertura.', 95, y + 6, 1190, 56)
+  }
+
+  ctx = header
+  const bodyHeight = y - bodyTop
+  const scale = Math.min(1, (1520 - bodyTop) / bodyHeight)
+  ctx.drawImage(body, 0, bodyTop, W, bodyHeight, (W - W * scale) / 2, bodyTop, W * scale, bodyHeight * scale)
+  // The matching HTML link sits on this reserved button area.
+  ctx.fillStyle = '#00bf90'; ctx.fillRect(95, 1580, 1210, 136)
+  ctx.fillStyle = '#10251f'; ctx.font = '800 55px Arial, sans-serif'
+  ctx.textAlign = 'center'; ctx.fillText('Contactanos por WhatsApp  ↗', W / 2, 1620)
+  ctx.textAlign = 'left'
+  ctx.fillStyle = mint; ctx.fillRect(94, 1776, 1210, 3)
+  ctx.font = '700 36px Arial, sans-serif'; ctx.fillText('DESLIZÁ PARA SEGUIR EL RECORRIDO', 95, 1810)
+  ctx.textAlign = 'right'; ctx.fillText('WHATSAPP  11 3486-2771', 1304, 1810)
+  const texture = new CanvasTexture(canvas)
+  texture.colorSpace = SRGBColorSpace; texture.anisotropy = 8
+  return texture
+}
+
+export function InteractiveRoadSign({ id, stop, progress, onOpen }: {
+  id: PanelId; stop: number; progress: MutableRefObject<number>; onOpen: (id: PanelId) => void
+}) {
+  const [hovered, setHovered] = useState(false)
+  const ref = useRef<Group>(null)
+  const { point, tangent } = atRoad(stop, 7.15)
+  const yaw = Math.atan2(-tangent.z, tangent.x) + Math.PI
+  const texture = useMemo(() => createSignTexture(id), [id])
+  useEffect(() => () => texture.dispose(), [texture])
+  useFrame((_, delta) => {
+    if (!ref.current) return
+    const near = Math.abs(driveState(progress.current).t - stop) < .045
+    const target = hovered ? 1.025 : near ? 1.012 : 1
+    ref.current.scale.setScalar(MathUtils.damp(ref.current.scale.x, target, 6, delta))
+  })
+  const pointerOver = (event: { stopPropagation: () => void }) => {
+    event.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'
+  }
+  const pointerOut = () => { setHovered(false); document.body.style.cursor = '' }
+  return <group position={[point.x, 0, point.z]} rotation={[0, yaw, 0]}>
+    <group ref={ref}>
+      {[-2.74, 2.74].map(x => <mesh key={x} position={[x, 4.25, 0]} castShadow>
+        <cylinderGeometry args={[.12, .14, 8.5, 12]} />
+        <meshStandardMaterial color="#40565d" metalness={.7} roughness={.32} />
+      </mesh>)}
+      <mesh position={[0, 4.65, 0]} castShadow onClick={() => onOpen(id)} onPointerOver={pointerOver} onPointerOut={pointerOut}>
+        <boxGeometry args={[6.35, 8.68, .24]} />
+        <meshStandardMaterial color={hovered ? '#426574' : '#253f4c'} metalness={.55} roughness={.38} />
+      </mesh>
+      <mesh position={[0, 4.65, .124]} onClick={() => onOpen(id)} onPointerOver={pointerOver} onPointerOut={pointerOut}>
+        <planeGeometry args={[6.2, 8.42]} />
+        <meshStandardMaterial map={texture} roughness={.67} metalness={.02} emissive="#173b3e" emissiveIntensity={.12} />
+      </mesh>
+      <SignContactLink position={[0, 1.557, .18]} message={signMessage(id)} label={`Contactar por WhatsApp sobre ${chapters.find(chapter => chapter.id === id)!.sign.toLowerCase()}`} />
+    </group>
+  </group>
+}
+
