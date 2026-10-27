@@ -253,7 +253,8 @@ function Vegetation({ compact }: { compact: boolean }) {
     for (let t = .026, i = 0; t < .98; t += step, i++) {
       for (const s of [-1, 1]) {
         if (s === 1 && t > .11 && t < .17) continue
-        if (s === -1 && avenuePosters.some(poster => Math.abs(poster.t - t) * routeLength < 3.2)) continue
+        // Keep both sidewalk supports and the approach to each overhead photo clear.
+        if (avenuePosters.some(poster => Math.abs(poster.t - t) * routeLength < 3.8)) continue
         if (cityIntersections.some(cross => Math.abs(cross - t) * routeLength < 6.4)) continue
         // Keep both the sign and the camera approach free of foliage.
         if (signStops.some(stop => Math.abs(stop.t - t) * routeLength < (s > 0 ? 5.7 : 6.8))) continue

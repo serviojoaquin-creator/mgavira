@@ -1,6 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { CanvasTexture, CatmullRomCurve3, DoubleSide, SRGBColorSpace, TubeGeometry, Vector3 } from 'three'
 import { atRoad, cityIntersections, routeLength, signStops } from '../experience/route'
+import { avenuePosters } from '../data/avenuePosters'
 
 function cityMapTexture() {
   const canvas = document.createElement('canvas'); canvas.width = 384; canvas.height = 768
@@ -49,6 +50,7 @@ export function ModernStreetFurniture() {
     for (let distance = 7; distance < routeLength - 6; distance += 15) {
       const t = distance / routeLength
       if (cityIntersections.some(cross => Math.abs(cross - t) * routeLength < 6)) continue
+      if (avenuePosters.some(poster => Math.abs(poster.t - t) * routeLength < 2.4)) continue
       for (const side of [-1, 1]) {
         if (signStops.some(stop => Math.abs(stop.t - t) * routeLength < (side > 0 ? 5 : 2))) continue
         out.push({ t, side })
