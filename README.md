@@ -59,9 +59,9 @@ Los controles verifican compilación, tamaño, cuatro rigs de ruedas, sentido de
 
 Créditos de HDR, fotografías y texturas en `public/media/v20/CREDITS.md`; decodificador en `public/draco/v1/CREDITS.md`.
 
-## Carteles elevados de la vereda izquierda
+## Pórticos publicitarios sobre la avenida
 
-Cuatro paneles apaisados de 3,2 × 2,2 m sobre un poste central, con el borde inferior a 2,59 m de altura y dos caras. Las fotografías se muestran completas con iluminación propia para conservar su claridad en las zonas de sombra. Se orientan hacia el tránsito que se aproxima. Las ubicaciones y futuras imágenes se editan en `src/data/avenuePosters.ts`: cada cartel tiene un identificador estable y un campo `image` opcional con la URL pública de su imagen. Hasta recibir el contenido muestran un panel neutro con acentos violeta y verde, sin mensajes comerciales inventados. Los carteles de servicios y sus paradas mantienen su comportamiento.
+Cuatro pórticos inspirados en la señalización elevada de la referencia del usuario. La estructura metálica reticulada cruza la avenida entre dos apoyos sobre las veredas, con un gálibo visual de 4,7 m. Cada panel horizontal mide 6,2 × 3,15 m y muestra la fotografía completa en ambas caras, orientada de frente al tránsito. El fondo oscuro, el marco fino y la iluminación propia mantienen las fotos visibles sin recortarlas ni deformarlas. Árboles y luminarias cercanos respetan el espacio de los apoyos. La geometría de todos los perfiles se combina una vez y se comparte entre los cuatro pórticos, sin animaciones ni recursos de imagen adicionales. Las ubicaciones e imágenes se editan en `src/data/avenuePosters.ts`; se conservan los identificadores y las cuatro fotografías existentes. Los carteles de servicios y sus paradas mantienen su comportamiento.
 
 ## Vista estática opcional
 
@@ -104,7 +104,7 @@ El GLB previo se archiva fuera de la publicación, sin duplicar descargas. Los a
 
 ## Fotos de carteles publicitarios v24
 
-Los cuatro carteles elevados de la vereda izquierda muestran las fotos aportadas por el usuario, en orden: acompañamiento dentro del auto, familia, CUD y traslado familiar. Cada foto aparece en ambas caras de su cartel y conserva el encuadre completo y su proporción; las franjas restantes usan un fondo oscuro. Los carteles de servicios mantienen su información.
+Los cuatro pórticos publicitarios muestran las fotos aportadas por el usuario, en orden: acompañamiento dentro del auto, familia, CUD y traslado familiar. Cada foto aparece en ambas caras de su cartel y conserva el encuadre completo y su proporción; las franjas restantes usan un fondo oscuro. Los carteles de servicios mantienen su información.
 
 Las imágenes están optimizadas como WebP en public/media/v24 y agregan 104.128 bytes en total. El build completo pesa aproximadamente 7,84 MB. Configuración y ubicaciones: src/data/avenuePosters.ts. Preparación de imágenes: node scripts/prepare-avenue-posters.mjs; reutiliza los originales archivados en work/asset-masters/avenue-posters.
 
