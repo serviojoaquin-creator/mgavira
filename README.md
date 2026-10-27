@@ -45,7 +45,7 @@ La apertura mantiene el auto estacionado junto al título. Los acercamientos de 
 
 Ruta de 173,3 m, seis capítulos, cuatro paradas con información completa dentro de carteles 3D, acercamiento de cámara y regreso al auto. Las ruedas giran según la distancia recorrida, también al retroceder con el scroll. Tráfico, peatones articulados y árboles animados dan movimiento a la ciudad; se reduce su cantidad en móvil.
 
-Sin WebGL o con movimiento reducido se ofrece una vista alternativa con el mismo contenido. `?preview3d=1` permite revisar el 3D en desarrollo; en producción se respeta la preferencia de movimiento. El formulario y los textos quedan disponibles para tecnologías de asistencia.
+Sin WebGL se ofrece una vista alternativa con el mismo contenido; también se puede elegir desde los botones de la página. La URL principal inicia el recorrido 3D tanto en desarrollo como en producción. El formulario y los textos quedan disponibles para tecnologías de asistencia.
 
 ## Verificación
 
@@ -65,9 +65,9 @@ Cuatro paneles apaisados de 3,2 × 2,2 m sobre un poste central, con el borde in
 
 ## Vista estática opcional
 
-El botón «Ver carteles» del encabezado abre una galería de los cuatro carteles informativos completos, con enlaces directos y desplazamiento normal. «Ver recorrido 3D» permite volver al inicio del recorrido. El ingreso habitual comienza con el recorrido 3D; no se restaura una elección estática de una visita anterior. Los enlaces explícitos permiten elegir la vista: `?view=static` abre directamente la galería y `?view=3d` el recorrido si WebGL está disponible. También se puede elegir la vista estática desde la pantalla de carga. Sin WebGL o con movimiento reducido se usa la galería automáticamente, salvo elección explícita de 3D con soporte disponible. La galería no monta el canvas ni necesita cargar los recursos 3D. Los datos del formulario se conservan al alternar porque el formulario permanece montado.
+El botón «Ver carteles» del encabezado abre una galería de los cuatro carteles informativos completos, con enlaces directos y desplazamiento normal. «Ver recorrido 3D» permite volver al inicio del recorrido. El ingreso habitual comienza con el recorrido 3D; no se restaura una elección estática de una visita anterior. Los enlaces explícitos permiten elegir la vista: `?view=static` abre directamente la galería y `?view=3d` el recorrido si WebGL está disponible. También se puede elegir la vista estática desde la pantalla de carga. La entrada normal abre siempre el recorrido 3D cuando WebGL está disponible, incluso si el sistema solicita movimiento reducido. La vista estática se abre únicamente mediante los botones de alternativa, el enlace explícito `?view=static` o si el navegador no soporta WebGL. La galería no monta el canvas ni necesita cargar los recursos 3D. Los datos del formulario se conservan al alternar porque el formulario permanece montado.
 
-Al entrar al recorrido se muestra un aviso explicativo, que se puede cerrar, continuar o usar para abrir todos los servicios sin recorrido. Durante la carga también se explica la alternativa y se puede acceder directamente. Se mantiene la vista estática automática cuando WebGL no está disponible o el visitante solicita movimiento reducido.
+Al entrar al recorrido se muestra un aviso explicativo, que se puede cerrar, continuar o usar para abrir todos los servicios sin recorrido. Durante la carga también se explica la alternativa y se puede acceder directamente. Se mantiene la vista estática automática únicamente cuando WebGL no está disponible. La preferencia de movimiento reducido sigue ajustando las transiciones de la interfaz, sin cambiar la vista inicial.
 
 ## Acabado cinematográfico v22
 
