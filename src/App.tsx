@@ -151,7 +151,7 @@ export default function App() {
         <span className="brand-word"><strong>TRANSPORTES</strong><b>MGAVIRA</b></span>
       </a>
       <nav className={`main-nav ${menuOpen ? 'open' : ''}`} aria-label="Navegación principal">
-        {nav.map(item => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
+        {(fallback ? [nav[0], nav[1], { label: 'CUD y obras sociales', href: '#insurance' }, nav[3]] : nav).map(item => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
       </nav>
       <button className="view-toggle" data-static={fallback} disabled={!supports3D} onClick={() => changeView(fallback ? '3d' : 'static')}>
         {fallback ? <Car size={17} aria-hidden="true" /> : <LayoutGrid size={17} aria-hidden="true" />}
@@ -184,7 +184,7 @@ export default function App() {
         </>}
       </section>
 
-      {fallback ? <StaticBusinessSections Details={ChapterDetails} /> : <div className="sign-gallery">
+      {fallback ? <StaticBusinessSections /> : <div className="sign-gallery">
         {chapters.map(chapter => <section key={chapter.id} id={chapter.id} className={`journey-chapter chapter-${chapter.id}`} aria-labelledby={`${chapter.id}-title`}>
           <div className="visually-hidden">
             <h2 id={`${chapter.id}-title`}>{chapter.sign}</h2>
