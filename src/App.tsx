@@ -17,12 +17,11 @@ function webGLAvailable() {
     return !!(canvas.getContext('webgl2') || canvas.getContext('webgl'))
   } catch { return false }
 }
-const preview3D = import.meta.env.DEV && new URLSearchParams(window.location.search).has('preview3d')
-type PageView = 'auto' | 'static' | '3d'
+type PageView = 'static' | '3d'
 function initialView(): PageView {
   const query = new URLSearchParams(window.location.search).get('view')
-  if (query === 'static' || query === '3d') return query
-  return 'auto'
+  // The regular entry always starts with the journey; static is an explicit choice.
+  return query === 'static' ? 'static' : '3d'
 }
 const nav = [
   { label: 'Servicios', href: '#services' },
@@ -63,9 +62,8 @@ export default function App() {
   const progress = useRef(0)
   const vignette = useRef<HTMLDivElement>(null)
   const [supports3D] = useState(webGLAvailable)
-  const [reducedMotion, setReducedMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)
   const [pageView, setPageView] = useState<PageView>(initialView)
-  const fallback = !supports3D || pageView === 'static' || (pageView === 'auto' && reducedMotion && !preview3D)
+  const fallback = !supports3D || pageView === 'static'
   const pendingSection = useRef<string | null>(null)
   const [loading, setLoading] = useState(!fallback)
   const [sceneReady, setSceneReady] = useState(false)
@@ -80,11 +78,9 @@ export default function App() {
   const [compact, setCompact] = useState(() => window.innerWidth < 760)
 
   useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const update = () => { setCompact(window.innerWidth < 760); setReducedMotion(media.matches) }
+    const update = () => setCompact(window.innerWidth < 760)
     window.addEventListener('resize', update, { passive: true })
-    media.addEventListener('change', update)
-    return () => { window.removeEventListener('resize', update); media.removeEventListener('change', update) }
+    return () => window.removeEventListener('resize', update)
   }, [])
 
   useEffect(() => { if (fallback) setLoading(false) }, [fallback])
