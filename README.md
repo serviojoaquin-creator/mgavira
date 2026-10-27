@@ -135,3 +135,11 @@ Se conservan los cuatro contactos de los carteles informativos. Se retiraron los
 - Peatones y tránsito fuera de cámara dejan de generar geometría innecesaria; el detalle facial distante se simplifica. Transformaciones de arquitectura precalculadas.
 - Compilación anticipada de materiales detrás de la pantalla de carga y pasos de animación acotados al volver de otra pestaña.
 - `node scripts/verify-render-quality.mjs` comprueba límites de resolución, rechazo de picos aislados y orden de adaptación. `?qualityAudit=1&view=3d` habilita métricas locales en `canvas.dataset.frameStats`, sin transmitir datos.
+
+### Landing independiente y sección CUD
+
+La alternativa «Ver carteles» tiene una composición propia: portada con fotografías, servicios desplegables con cambio de imagen, cobertura ilustrada, compromiso de MGavira y una sección dedicada al Certificado Único de Discapacidad. Conserva los mismos datos de servicios, pasos y contacto del recorrido.
+
+El bloque CUD explica qué es, para qué sirve y cómo se coordina un traslado con obra social o prepaga, con la imagen aportada, contacto específico y preguntas frecuentes. Incluye enlaces a Argentina.gob.ar y a la Ley 24.901; distingue el certificado de la indicación médica y la autorización de la prestación.
+
+Las animaciones de entrada usan IntersectionObserver y transformaciones/opacidad CSS; el mapa dibuja sus recorridos y los servicios cambian de fotografía. Se desactivan los movimientos cuando el sistema solicita reducirlos. La vista estática mantiene el Canvas desmontado. No incorpora bibliotecas ni imágenes nuevas.
