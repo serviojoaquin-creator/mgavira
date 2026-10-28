@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { ArrowUpRight, X, MapPin, Clock3, HeartHandshake, ShieldCheck, MessageCircleMore } from 'lucide-react'
-import { chapters, insuranceCoverage, insuranceSteps, messages, reasons, services, whatsapp, type PanelId } from '../data/site'
+import { chapters, insuranceCoverage, insuranceSteps, messages, reasons, serviceOverview, whatsapp, type PanelId } from '../data/site'
 
 const icons = [ShieldCheck, Clock3, HeartHandshake, MessageCircleMore]
 
@@ -23,9 +23,8 @@ export function InfoPanel({ panel, onClose }: { panel: PanelId | null; onClose: 
       <div className="panel-top"><span className="eyebrow">{chapter.eyebrow} · TRANSPORTE MGAVIRA</span><button ref={closeRef} className="icon-button" type="button" aria-label="Cerrar información" onClick={onClose}><X size={22} /></button></div>
       <h2 id="panel-title">{chapter.heading}</h2>
       {panel === 'services' && <>
-        <p className="panel-lede">En Transporte MGavira brindamos servicios de traslado para niños, adolescentes y adultos, priorizando la responsabilidad, el compromiso y la puntualidad en cada recorrido.</p>
-        <div className="panel-cards three">{services.map((s, i) => <article className="mini-card" key={s.title}><span className="card-index">0{i + 1}</span><h3>{s.title}</h3><p>{s.text}</p></article>)}</div>
-        <div className="panel-callout">Trabajamos con obras sociales y prepagas.</div>
+        {serviceOverview.paragraphs.map(paragraph => <p className="panel-lede" key={paragraph}>{paragraph}</p>)}
+        <div className="panel-callout">{serviceOverview.coverage}</div>
         <a className="button button-primary" href={whatsapp(messages.services)} target="_blank" rel="noopener noreferrer">Consultar por un traslado <ArrowUpRight size={18} /></a>
       </>}
       {panel === 'coverage' && <>

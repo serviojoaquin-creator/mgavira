@@ -23,7 +23,7 @@ export function ContactForm() {
   return <form className="contact-form" onSubmit={submit}>
     <div className="form-header"><Send size={20} aria-hidden="true" /><span>Prepará tu consulta</span></div>
     <div className="form-grid">
-      <label>Tipo de traslado<select name="type" required defaultValue=""><option value="" disabled>Seleccioná una opción</option><option>Terapia</option><option>Centro Educativo Terapéutico</option><option>Colegio</option></select></label>
+      <label>Tipo de traslado<select name="type" required defaultValue=""><option value="" disabled>Seleccioná una opción</option><option>Terapia</option><option>Centro Educativo Terapéutico (CET)</option><option>Colegio</option></select></label>
       <label>Días solicitados<input name="days" placeholder="Ej. lunes a viernes" required autoComplete="off" /></label>
       <label>Horarios<input name="times" placeholder="Ej. ingreso 08:00, salida 16:00" required autoComplete="off" /></label>
       <label><span>Obra social o prepaga <small>(opcional)</small></span><input name="insurance" placeholder="Si corresponde" autoComplete="off" /></label>

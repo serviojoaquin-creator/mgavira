@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { CanvasTexture, Group, MathUtils, SRGBColorSpace } from 'three'
 import { atRoad, driveState } from '../experience/route'
 import { SignContactLink } from './SignContactLink'
-import { chapters, insuranceCoverage, insuranceSteps, reasons, services, signMessage, type PanelId } from '../data/site'
+import { chapters, insuranceCoverage, insuranceSteps, reasons, serviceOverview, signMessage, type PanelId } from '../data/site'
 
 const W = 1400, H = 1900
 const white = '#f3f7f3', muted = '#e0dae6', mint = '#cf98f0'
@@ -63,11 +63,15 @@ function createSignTexture(id: PanelId) {
   }
 
   if (id === 'services') {
-    ctx.fillStyle = muted; ctx.font = '500 55px Arial, sans-serif'
-    y = wrap(ctx, chapter.heading, 95, y, 1180, 70) + 44
-    y = rows(services, y, true)
-    ctx.fillStyle = mint; ctx.font = '700 53px Arial, sans-serif'
-    y = wrap(ctx, 'Trabajamos con obras sociales y prepagas.', 95, y + 12, 1200, 68)
+    ctx.fillStyle = white; ctx.font = '700 70px Arial, sans-serif'
+    y = wrap(ctx, serviceOverview.title, 95, y, 1190, 84) + 38
+    ctx.fillStyle = muted; ctx.font = '400 53px Arial, sans-serif'
+    serviceOverview.paragraphs.forEach(paragraph => {
+      y = wrap(ctx, paragraph, 95, y, 1190, 70) + 32
+    })
+    ctx.fillStyle = mint; ctx.fillRect(95, y, 1190, 3)
+    ctx.font = '700 53px Arial, sans-serif'
+    y = wrap(ctx, serviceOverview.coverage, 95, y + 30, 1190, 70)
   } else if (id === 'coverage') {
     ctx.fillStyle = white; ctx.font = '700 72px Arial, sans-serif'
     y = wrap(ctx, chapter.heading, 95, y + 24, 1180, 88) + 115
