@@ -12,7 +12,6 @@ const sources = [
  ['d387711e-796d-417f-a296-3c428642777e', 'acompanamiento'],
  ['d4968a97-dd29-47a2-b2d2-0733b253c281', 'familia'],
  ['bb26ee43-f094-49f8-af8b-8a1fe1fd880c', 'cud'],
- ['3352648d-154b-48cc-9ff3-1423507761c1', 'traslado-familiar'],
 ]
 const results = await Promise.all(sources.map(async ([id, name]) => {
  const original = resolve(masters, name + '.png')
