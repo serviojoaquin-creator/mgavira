@@ -5,7 +5,7 @@ import { Check, ArrowDown, ArrowRight, ArrowUpRight, Car, LayoutGrid, MapPin, Me
 import { LoadingScreen } from './components/LoadingScreen'
 import { ContactForm } from './components/ContactForm'
 import { StaticHero, StaticBusinessSections } from './components/StaticOverview'
-import { chapters, contact, insuranceCoverage, insuranceSteps, messages, reasons, services, whatsapp, type PanelId } from './data/site'
+import { chapters, contact, insuranceCoverage, insuranceSteps, messages, reasons, serviceOverview, whatsapp, type PanelId } from './data/site'
 import './styles.css'
 import './static-overview.css'
 
@@ -31,11 +31,10 @@ const nav = [
 ]
 
 function ChapterDetails({ id }: { id: PanelId }) {
-  if (id === 'services') return <div className="story-detail">
-    {services.map((item, index) => <div className="story-row" key={item.title}>
-      <span className="story-row-index">0{index + 1}</span><div><h3>{item.title}</h3><p>{item.text}</p></div>
-    </div>)}
-    <p className="story-footnote">Trabajamos con obras sociales y prepagas.</p>
+  if (id === 'services') return <div className="story-detail story-services">
+    <h3>{serviceOverview.title}</h3>
+    {serviceOverview.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+    <p className="story-footnote">{serviceOverview.coverage}</p>
   </div>
   if (id === 'coverage') return <div className="story-detail story-coverage">
     <div className="coverage-types"><span>CABA</span><i /><span>AMBA</span></div>
@@ -174,7 +173,7 @@ export default function App() {
         {fallback ? <StaticHero /> : <>
         <div className="section-copy hero-copy">
           <h1 id="hero-title">Tu viaje,<br />en buenas<br /><span>manos.</span></h1>
-          <p className="hero-description">A terapias, Centro Educativo Terapéutico y colegios.<br />Te acompañamos en cada recorrido, con el cuidado que necesitás.</p>
+          <p className="hero-description">A terapias, Centro Educativo Terapéutico (CET) y colegios.<br />Te acompañamos en cada recorrido, con el cuidado que necesitás.</p>
           <div className="hero-actions">
             <a className="button button-primary" href={whatsapp(messages.main)} target="_blank" rel="noopener noreferrer">Coordinemos tu traslado <ArrowUpRight size={18} aria-hidden="true" /></a>
             <a className="hero-explore" href="#services">Conocé cómo viajamos <ArrowRight size={18} aria-hidden="true" /></a>
