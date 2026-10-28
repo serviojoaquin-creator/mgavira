@@ -1,6 +1,6 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { ArrowDown, ArrowRight, ArrowUpRight, CheckCheck, Clock3, HeartHandshake, MapPin, MessageCircle, Plus, ShieldCheck, Sparkles } from 'lucide-react'
-import { insuranceSteps, messages, reasons, services, whatsapp } from '../data/site'
+import { insuranceSteps, messages, reasons, serviceOverview, whatsapp } from '../data/site'
 
 const cudSource = 'https://www.argentina.gob.ar/justicia/derechofacil/leysimple/certificado-unico-discapacidad'
 const cudMessage = 'Hola, cuento con CUD y quisiera consultar por un traslado con mi obra social o prepaga.'
@@ -44,7 +44,7 @@ export function StaticHero() {
       <div className="sl-hero-copy" data-reveal>
         <p className="sl-eyebrow"><span />TRANSPORTES MGAVIRA · CABA Y AMBA</p>
         <h1 id="hero-title">Hay viajes<br />que empiezan<br />con <em>confianza.</em></h1>
-        <p className="sl-hero-lede">A terapias, al Centro Educativo Terapéutico, al colegio. Te acompañamos con la tranquilidad de saber que estás en buenas manos.</p>
+        <p className="sl-hero-lede">A terapias, al Centro Educativo Terapéutico (CET), al colegio. Te acompañamos con la tranquilidad de saber que estás en buenas manos.</p>
         <div className="sl-hero-actions"><ContactLink>Coordinemos tu traslado</ContactLink><a className="sl-text-link" href="#services">Conocé los servicios <ArrowDown size={16} aria-hidden="true" /></a></div>
         <div className="sl-hero-proof"><div className="sl-proof-icon"><HeartHandshake size={23} aria-hidden="true" /></div><p><strong>Cerca, de principio a fin.</strong><span>6 años acompañando a las familias.</span></p></div>
       </div>
@@ -61,25 +61,19 @@ export function StaticHero() {
   </>
 }
 
-const serviceLabels = ['Terapias', 'Centro Educativo Terapéutico', 'Colegios']
-const serviceImages = ['/media/v24/acompanamiento.webp', '/media/v24/traslado-familiar.webp', '/media/v24/familia.webp']
-const serviceAlts = ['Acompañamiento cercano durante un viaje en auto.', 'Una familia prepara un traslado junto al vehículo.', 'Una familia comparte un momento al aire libre.']
-
 function ServiceSection() {
-  const [selected, setSelected] = useState(0)
   return <section id="services" className="journey-chapter sl-section sl-services" aria-labelledby="services-title">
-    <div className="sl-section-top" data-reveal><div><p className="sl-eyebrow">01 / NUESTROS SERVICIOS</p><h2 id="services-title">Tu rutina, con un<br /><em>mejor recorrido.</em></h2></div><p>Coordinamos cada traslado según tus horarios, tus necesidades y el destino al que querés llegar.</p></div>
+    <div className="sl-section-top" data-reveal><div><p className="sl-eyebrow">01 / NUESTROS SERVICIOS</p><h2 id="services-title">Tu rutina, con un<br /><em>mejor recorrido.</em></h2></div></div>
     <div className="sl-services-layout">
       <div className="sl-services-visual" data-reveal>
-        {serviceImages.map((src, i) => <img key={src} className={selected === i ? 'is-active' : ''} src={src} alt={serviceAlts[i]} width="768" height="512" loading="lazy" decoding="async" aria-hidden={selected !== i} />)}
-        <div className="sl-service-photo-caption"><span>EL CUIDADO VIAJA CON VOS</span><strong>{serviceLabels[selected]}</strong><span className="sl-photo-index">0{selected + 1} / 03</span></div>
+        <img className="is-active" src="/media/v24/acompanamiento.webp" alt="Una madre acompaña a su hija durante un viaje en auto." width="730" height="375" loading="lazy" decoding="async" />
+        <div className="sl-service-photo-caption"><span>EL CUIDADO VIAJA CON VOS</span><strong>Cerca, en cada recorrido.</strong></div>
       </div>
-      <div className="sl-service-list" data-reveal>
-        {services.map((service, i) => <div key={service.title} className={`sl-service-item${selected === i ? ' is-active' : ''}`}>
-          <h3><button id={`service-trigger-${i}`} aria-expanded={selected === i} aria-controls={`service-description-${i}`} onClick={() => setSelected(i)}><span className="sl-number">0{i + 1}</span><span>{serviceLabels[i]}</span><Plus size={21} aria-hidden="true" /></button></h3>
-          <div id={`service-description-${i}`} role="region" aria-labelledby={`service-trigger-${i}`} hidden={selected !== i}><p>{service.text}</p><a href={whatsapp(`Hola, quisiera consultar por ${service.title.toLowerCase()} con Transporte MGavira.`)} target="_blank" rel="noopener noreferrer">Consultar por este traslado <ArrowUpRight size={16} aria-hidden="true" /></a></div>
-        </div>)}
-        <div className="sl-service-note"><ShieldCheck size={20} aria-hidden="true" /><p>Trabajamos con obras sociales y prepagas.<a href="#insurance">Te contamos cómo <ArrowRight size={14} aria-hidden="true" /></a></p></div>
+      <div className="sl-service-overview" data-reveal>
+        <h3>{serviceOverview.title}</h3>
+        {serviceOverview.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+        <ContactLink message={messages.services}>Consultá por tu traslado</ContactLink>
+        <div className="sl-service-note"><ShieldCheck size={20} aria-hidden="true" /><p>{serviceOverview.coverage}<a href="#insurance">Te contamos cómo <ArrowRight size={14} aria-hidden="true" /></a></p></div>
       </div>
     </div>
   </section>
@@ -107,7 +101,7 @@ function CoverageSection() {
 
 function CommitmentSection() {
   const icons = [ShieldCheck, Clock3, HeartHandshake, MessageCircle]
-  return <section id="why" className="journey-chapter sl-section sl-commitment" aria-labelledby="why-title"><div className="sl-commitment-photo" data-reveal><img src="/media/v24/traslado-familiar.webp" alt="Una familia organiza un traslado y guarda una silla de ruedas en su vehículo." width="768" height="384" loading="lazy" decoding="async" /><div className="sl-experience-stamp"><strong>6</strong><span>AÑOS DE<br />EXPERIENCIA</span><Sparkles size={21} aria-hidden="true" /></div></div><div className="sl-commitment-copy" data-reveal><p className="sl-eyebrow">03 / NUESTRA FORMA DE ACOMPAÑAR</p><h2 id="why-title">La diferencia<br />está en <em>el cuidado.</em></h2><div className="sl-values">{reasons.map((item,i)=>{const Icon=icons[i];return <div key={item.title}><Icon size={21} aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.text}</p></div></div>})}</div><a className="sl-text-link" href={whatsapp(messages.main)} target="_blank" rel="noopener noreferrer">Hablemos de lo que necesitás <ArrowUpRight size={17} aria-hidden="true" /></a></div></section>
+  return <section id="why" className="journey-chapter sl-section sl-commitment" aria-labelledby="why-title"><div className="sl-commitment-photo" data-reveal><img src="/media/v25/familia-acompanamiento.webp" alt="Una madre y su hija comparten un abrazo y sonríen en casa." width="960" height="640" loading="lazy" decoding="async" /><div className="sl-experience-stamp"><strong>6</strong><span>AÑOS DE<br />EXPERIENCIA</span><Sparkles size={21} aria-hidden="true" /></div></div><div className="sl-commitment-copy" data-reveal><p className="sl-eyebrow">03 / NUESTRA FORMA DE ACOMPAÑAR</p><h2 id="why-title">La diferencia<br />está en <em>el cuidado.</em></h2><div className="sl-values">{reasons.map((item,i)=>{const Icon=icons[i];return <div key={item.title}><Icon size={21} aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.text}</p></div></div>})}</div><a className="sl-text-link" href={whatsapp(messages.main)} target="_blank" rel="noopener noreferrer">Hablemos de lo que necesitás <ArrowUpRight size={17} aria-hidden="true" /></a></div></section>
 }
 
 function CUDSection() {
@@ -115,7 +109,7 @@ function CUDSection() {
     <div className="sl-section-top" data-reveal><div><p className="sl-eyebrow">04 / CUD Y OBRAS SOCIALES</p><h2 id="insurance-title">Más claridad.<br /><em>Menos vueltas.</em></h2></div><p>También te acompañamos a entender cómo gestionar tu traslado con la cobertura correspondiente.</p></div>
     <div id="cud" className="sl-cud-feature" data-reveal>
       <div className="sl-cud-image"><img src="/media/v24/cud.webp" alt="Imagen ilustrativa de un Certificado Único de Discapacidad, con sus datos personales difuminados." width="768" height="512" loading="lazy" decoding="async" /><div><ShieldCheck size={20} aria-hidden="true" /><span>Un documento.<strong>Más acceso a tus derechos.</strong></span></div></div>
-      <div className="sl-cud-copy"><span className="sl-cud-tag"><span />TRABAJAMOS CON CUD</span><h3>Certificado Único<br />de Discapacidad.</h3><p>El CUD es un documento público, gratuito y válido en todo el país que acredita la discapacidad. Se otorga tras la evaluación de una junta interdisciplinaria.</p><p>Permite acceder a derechos y prestaciones, como cobertura de tratamientos, rehabilitación, apoyos educativos y beneficios en el transporte público.</p><div className="sl-cud-business"><CheckCheck size={23} aria-hidden="true" /><p><strong>¿Tenés CUD? Hablemos de tu traslado.</strong>En MGavira trabajamos con personas que cuentan con CUD y coordinamos traslados a terapias, Centro Educativo Terapéutico y colegios, con obras sociales y prepagas.</p></div><ContactLink message={cudMessage}>Consultar por un traslado con CUD</ContactLink></div>
+      <div className="sl-cud-copy"><span className="sl-cud-tag"><span />TRABAJAMOS CON CUD</span><h3>Certificado Único<br />de Discapacidad.</h3><p>El CUD es un documento público, gratuito y válido en todo el país que acredita la discapacidad. Se otorga tras la evaluación de una junta interdisciplinaria.</p><p>Permite acceder a derechos y prestaciones, como cobertura de tratamientos, rehabilitación, apoyos educativos y beneficios en el transporte público.</p><div className="sl-cud-business"><CheckCheck size={23} aria-hidden="true" /><p><strong>¿Tenés CUD? Hablemos de tu traslado.</strong>En MGavira trabajamos con personas que cuentan con CUD y coordinamos traslados a terapias, Centro Educativo Terapéutico (CET) y colegios, con obras sociales y prepagas.</p></div><ContactLink message={cudMessage}>Consultar por un traslado con CUD</ContactLink></div>
     </div>
     <div className="sl-insurance-bottom">
       <div className="sl-coverage-promise" data-reveal><p className="sl-eyebrow">TU COBERTURA, BIEN ACOMPAÑADA</p><div><strong>100<span>%</span></strong><ShieldCheck size={31} aria-hidden="true" /></div><h3>Cobertura de la prestación<br />de traslado.</h3><p>La obra social cubre el 100% de la prestación contemplada en la Ley 24.901, con CUD, indicación médica y autorización correspondiente.</p><small>Evaluamos cada solicitud según el recorrido y las condiciones de tu cobertura.</small><a href="https://www.argentina.gob.ar/normativa/nacional/ley-24901-47677/actualizacion" target="_blank" rel="noopener noreferrer">Consultar la Ley 24.901 <ArrowUpRight size={14} aria-hidden="true" /></a></div>

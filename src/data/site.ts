@@ -7,11 +7,20 @@ export const contact = {
 
 export type PanelId = 'services' | 'coverage' | 'why' | 'insurance'
 
+export const serviceOverview = {
+  title: 'Traslados a terapias, CET y colegios',
+  paragraphs: [
+    'Acompañamos a cada persona en sus traslados a terapias, centros educativos terapéuticos (CET) e instituciones escolares, brindando un servicio organizado y adaptado a las necesidades de cada pasajero y su familia.',
+    'Coordinamos horarios y recorridos con responsabilidad, compromiso y comunicación directa para que cada viaje sea una experiencia tranquila y segura.',
+  ],
+  coverage: 'Trabajamos con obras sociales y prepagas.',
+} as const
+
 export const chapters: { id: PanelId; eyebrow: string; sign: string; heading: string; summary: string; cta: string }[] = [
   {
     id: 'services', eyebrow: '01 / SERVICIOS', sign: 'NUESTROS SERVICIOS',
-    heading: 'Traslados pensados para acompañarte.',
-    summary: 'Terapias, Centro Educativo Terapéutico y colegios. Cada recorrido se coordina con responsabilidad, puntualidad y comunicación directa.',
+    heading: serviceOverview.title,
+    summary: serviceOverview.paragraphs[0],
     cta: 'Explorar servicios',
   },
   {
@@ -32,12 +41,6 @@ export const chapters: { id: PanelId; eyebrow: string; sign: string; heading: st
     summary: 'Trabajamos con obras sociales y prepagas y orientamos la consulta para gestionar las autorizaciones correspondientes.',
     cta: 'Conocer el proceso',
   },
-]
-
-export const services = [
-  { title: 'Traslados a terapias', text: 'Acompañamos la asistencia a tratamientos y actividades terapéuticas con horarios coordinados y comunicación directa.' },
-  { title: 'Traslados a Centro Educativo Terapéutico', text: 'Organizamos cada recorrido al Centro Educativo Terapéutico considerando los horarios y las necesidades de quienes viajan.' },
-  { title: 'Traslados a colegios', text: 'Coordinamos recorridos y horarios hacia instituciones educativas según las necesidades de cada familia.' },
 ]
 
 export const insuranceCoverage = {
