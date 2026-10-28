@@ -143,3 +143,10 @@ La alternativa «Ver carteles» tiene una composición propia: portada con fotog
 El bloque CUD explica qué es, para qué sirve y cómo se coordina un traslado con obra social o prepaga, con la imagen aportada, contacto específico y preguntas frecuentes. Incluye enlaces a Argentina.gob.ar y a la Ley 24.901; distingue el certificado de la indicación médica y la autorización de la prestación.
 
 Las animaciones de entrada usan IntersectionObserver y transformaciones/opacidad CSS; el mapa dibuja sus recorridos y los servicios cambian de fotografía. Se desactivan los movimientos cuando el sistema solicita reducirlos. La vista estática mantiene el Canvas desmontado. No incorpora bibliotecas ni imágenes nuevas.
+
+
+### Servicios unificados y fotografía familiar v25
+
+El cartel de servicios del recorrido y la landing muestran un único bloque: «Traslados a terapias, CET y colegios». El título, los dos párrafos de presentación y la mención a obras sociales y prepagas se comparten desde `serviceOverview` en `src/data/site.ts`. Se retiran las tres opciones desplegables de la landing; toda la información está visible. La sigla CET se conserva en mayúsculas también en el inicio, la sección CUD, el formulario y los metadatos.
+
+La foto del traslado con silla de ruedas se reemplaza en la landing y en el cuarto pórtico por una fotografía de madre e hija de Nicola Barts / Pexels. Se sirve como WebP de 960 × 640 px en `public/media/v25/familia-acompanamiento.webp`; sus créditos y licencia están en esa carpeta. La descripción alternativa relata la escena, sin atribuir diagnósticos por la apariencia ni presentar a las modelos como clientas. El original anterior permanece archivado localmente, fuera de la publicación.
