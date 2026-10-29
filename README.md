@@ -150,3 +150,10 @@ Las animaciones de entrada usan IntersectionObserver y transformaciones/opacidad
 El cartel de servicios del recorrido y la landing muestran un único bloque: «Traslados a terapias, CET y colegios». El título, los dos párrafos de presentación y la mención a obras sociales y prepagas se comparten desde `serviceOverview` en `src/data/site.ts`. Se retiran las tres opciones desplegables de la landing; toda la información está visible. La sigla CET se conserva en mayúsculas también en el inicio, la sección CUD, el formulario y los metadatos.
 
 La foto del traslado con silla de ruedas se reemplaza en la landing y en el cuarto pórtico por una fotografía de madre e hija de Nicola Barts / Pexels. Se sirve como WebP de 960 × 640 px en `public/media/v25/familia-acompanamiento.webp`; sus créditos y licencia están en esa carpeta. La descripción alternativa relata la escena, sin atribuir diagnósticos por la apariencia ni presentar a las modelos como clientas. El original anterior permanece archivado localmente, fuera de la publicación.
+
+
+### Obras sociales con logos v26
+
+Se incorporan exclusivamente los 20 logos visibles en la lámina aportada por el usuario: OSDE, Swiss Medical, Medicus, Galeno, Sancor Salud, Medifé, Premedic, Hospital Universitario Austral, OSDEPYM, OSPOCE, OSPF, OSECAC, OSPEP, OSPRERA, OSTIG, OSPIT, OSCEARA, OSUTHGRA, OSMÉDICA y OSEPJANA. No se buscaron ni añadieron otros logos. La lista y las coordenadas se comparten desde `src/data/insurancePartners.ts`.
+
+La landing muestra una grilla adaptable, con nombres accesibles y consulta por cobertura. El cartel de obras sociales dibuja los mismos logos dentro de su cara; conserva cobertura, requisitos, pasos y contacto. Se reutiliza un único atlas WebP sin pérdida de 88.670 bytes, sin generar nuevas marcas ni crear solicitudes por cada logo. Los créditos están en `public/media/v26/CREDITS.md`.
