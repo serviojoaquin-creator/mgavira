@@ -6,6 +6,7 @@ import { LoadingScreen } from './components/LoadingScreen'
 import { ContactForm } from './components/ContactForm'
 import { StaticHero, StaticBusinessSections } from './components/StaticOverview'
 import { chapters, contact, insuranceCoverage, insuranceSteps, messages, reasons, serviceOverview, whatsapp, type PanelId } from './data/site'
+import { insurancePartners } from './data/insurancePartners'
 import './styles.css'
 import './static-overview.css'
 
@@ -48,6 +49,7 @@ function ChapterDetails({ id }: { id: PanelId }) {
     <p className="story-footnote"><strong>6 años de experiencia</strong> acompañando a las familias en sus necesidades de traslado.</p>
   </div>
   return <div className="story-detail story-insurance">
+    <p>Trabajamos con {insurancePartners.map(partner => partner.name).join(', ')} y otras obras sociales y prepagas.</p>
     <p className="story-intro">Trabajamos con obras sociales y prepagas y te orientamos durante la gestión.</p>
     <div className="insurance-coverage"><h3>{insuranceCoverage.title}</h3><p>{insuranceCoverage.text}</p><small>{insuranceCoverage.requirements}</small></div>
     {insuranceSteps.map(step => <div className="story-row" key={step.number}>

@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react'
 import { ArrowDown, ArrowRight, ArrowUpRight, CheckCheck, Clock3, HeartHandshake, MapPin, MessageCircle, Plus, ShieldCheck, Sparkles } from 'lucide-react'
 import { insuranceSteps, messages, reasons, serviceOverview, whatsapp } from '../data/site'
+import { InsurancePartners } from './InsurancePartners'
 
 const cudSource = 'https://www.argentina.gob.ar/justicia/derechofacil/leysimple/certificado-unico-discapacidad'
 const cudMessage = 'Hola, cuento con CUD y quisiera consultar por un traslado con mi obra social o prepaga.'
@@ -107,6 +108,7 @@ function CommitmentSection() {
 function CUDSection() {
   return <section id="insurance" className="journey-chapter sl-section sl-insurance" aria-labelledby="insurance-title">
     <div className="sl-section-top" data-reveal><div><p className="sl-eyebrow">04 / CUD Y OBRAS SOCIALES</p><h2 id="insurance-title">Más claridad.<br /><em>Menos vueltas.</em></h2></div><p>También te acompañamos a entender cómo gestionar tu traslado con la cobertura correspondiente.</p></div>
+    <InsurancePartners />
     <div id="cud" className="sl-cud-feature" data-reveal>
       <div className="sl-cud-image"><img src="/media/v24/cud.webp" alt="Imagen ilustrativa de un Certificado Único de Discapacidad, con sus datos personales difuminados." width="768" height="512" loading="lazy" decoding="async" /><div><ShieldCheck size={20} aria-hidden="true" /><span>Un documento.<strong>Más acceso a tus derechos.</strong></span></div></div>
       <div className="sl-cud-copy"><span className="sl-cud-tag"><span />TRABAJAMOS CON CUD</span><h3>Certificado Único<br />de Discapacidad.</h3><p>El CUD es un documento público, gratuito y válido en todo el país que acredita la discapacidad. Se otorga tras la evaluación de una junta interdisciplinaria.</p><p>Permite acceder a derechos y prestaciones, como cobertura de tratamientos, rehabilitación, apoyos educativos y beneficios en el transporte público.</p><div className="sl-cud-business"><CheckCheck size={23} aria-hidden="true" /><p><strong>¿Tenés CUD? Hablemos de tu traslado.</strong>En MGavira trabajamos con personas que cuentan con CUD y coordinamos traslados a terapias, Centro Educativo Terapéutico (CET) y colegios, con obras sociales y prepagas.</p></div><ContactLink message={cudMessage}>Consultar por un traslado con CUD</ContactLink></div>
