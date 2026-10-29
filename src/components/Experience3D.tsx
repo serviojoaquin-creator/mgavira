@@ -5,7 +5,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { CitySky } from './CitySky'
 import { CinematicRender } from './CinematicRender'
 import { CityReflections } from './CityReflections'
-import { ACESFilmicToneMapping, DirectionalLight, Object3D, Vector3, PCFShadowMap, SRGBColorSpace } from 'three'
+import { ACESFilmicToneMapping, DirectionalLight, Object3D, Vector3, PCFShadowMap, SRGBColorSpace, Mesh, Texture } from 'three'
 import { CityEnvironment } from './CityEnvironment'
 import { VehicleController } from './VehicleController'
 import { CameraDirector } from './CameraDirector'
@@ -64,6 +64,17 @@ function FirstFrame({ onReady }: { onReady: () => void }) {
   useEffect(() => { mounted.current = true; return () => { mounted.current = false } }, [])
   useFrame(() => {
     if (++frames.current !== 3) return
+    // Improve oblique road, facade and sign detail once, before shader warm-up.
+    const anisotropy = Math.min(16, gl.capabilities.getMaxAnisotropy())
+    scene.traverse(object => {
+      if (!(object instanceof Mesh)) return
+      const materials = Array.isArray(object.material) ? object.material : [object.material]
+      for (const material of materials) for (const value of Object.values(material)) {
+        if (value instanceof Texture && !value.isRenderTargetTexture && value.anisotropy !== anisotropy) {
+          value.anisotropy = anisotropy; value.needsUpdate = true
+        }
+      }
+    })
     // Compile offscreen building/traffic variants while the loading screen is still visible.
     void gl.compileAsync(scene, camera).then(() => { if (mounted.current) onReady() })
       .catch(() => { if (mounted.current) onReady() })

@@ -9,7 +9,7 @@ export function CityReflections() {
   const capture = useRef<(() => void) | null>(null)
   useEffect(() => {
     if (!gl.extensions.has('EXT_color_buffer_float')) return
-    const cube = new WebGLCubeRenderTarget(128, { type: HalfFloatType })
+    const cube = new WebGLCubeRenderTarget(256, { type: HalfFloatType })
     const camera = new CubeCamera(.15, 150, cube)
     const point = atRoad(.14, 1.45).point
     camera.position.set(point.x, 1.55, point.z)
