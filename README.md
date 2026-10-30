@@ -157,3 +157,9 @@ La foto del traslado con silla de ruedas se reemplaza en la landing y en el cuar
 Se incorporan exclusivamente los 20 logos visibles en la lámina aportada por el usuario: OSDE, Swiss Medical, Medicus, Galeno, Sancor Salud, Medifé, Premedic, Hospital Universitario Austral, OSDEPYM, OSPOCE, OSPF, OSECAC, OSPEP, OSPRERA, OSTIG, OSPIT, OSCEARA, OSUTHGRA, OSMÉDICA y OSEPJANA. No se buscaron ni añadieron otros logos. La lista y las coordenadas se comparten desde `src/data/insurancePartners.ts`.
 
 La landing muestra una grilla adaptable, con nombres accesibles y consulta por cobertura. El cartel de obras sociales dibuja los mismos logos dentro de su cara; conserva cobertura, requisitos, pasos y contacto. Se reutiliza un único atlas WebP sin pérdida de 88.670 bytes, sin generar nuevas marcas ni crear solicitudes por cada logo. Los créditos están en `public/media/v26/CREDITS.md`.
+
+### Materiales y fotografía de cámara v27
+
+Ventanas con cuatro variaciones de textura arquitectónica, interiores, persianas y reflejos, conservando un único lote instanciado. Atlas original generado con IA; no es fotografía del negocio. Reflejos urbanos HDR sobre la carrocería, cámara inicial más baja, sombras suaves estabilizadas y actualización limitada a 20 Hz también durante el avance. Asfalto de grano más fino con normales menos agresivas y archivos versionados. Se mantiene el auto 3D, su geometría y las ruedas, el recorrido y los carteles.
+
+El render admite hasta 2x con presupuesto de 8,29 millones de píxeles en escritorio y 2,4 millones en móvil, MSAA 2x y adaptación hasta 1,25x en pantallas habituales. No garantiza una tasa de FPS en cualquier equipo. Sigue siendo una reconstrucción 3D interactiva, no una filmación ni una réplica fotorrealista certificada.
