@@ -78,6 +78,7 @@ function residents(compact: boolean) {
   const skins = ['#bb8564', '#d6ac8b', '#8b5c44', '#e0bba0', '#a77152']
   for (const side of [-1, 1]) {
     const exclusions = [
+      [0, .08],
       ...cityIntersections.map(t => [t - 6 / routeLength, t + 6 / routeLength]),
       ...signStops.map(stop => [stop.t - 6 / routeLength, stop.t + 6 / routeLength]),
       ...[.31, .69].map(t => [t - 4 / routeLength, t + 4 / routeLength]),

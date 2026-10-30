@@ -19,7 +19,7 @@ export function CitySky() {
     scene.backgroundIntensity = .85
     scene.backgroundRotation.set(0, 2.65, 0)
     scene.environment = filtered.texture
-    scene.environmentIntensity = .85
+    scene.environmentIntensity = 1.05
     scene.environmentRotation.set(0, .6, 0)
     return () => {
       scene.background = previous.background; scene.environment = previous.environment

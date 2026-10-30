@@ -14,3 +14,9 @@ assert.equal(qualityDecision(29,3,0,false,1.25,1.25,1.5),null,'Respect the resol
 assert.deepEqual(qualityDecision(16,0,4,false,1.25,1.25,1.5),{ao:false,ratio:1.5},'Recover image resolution first')
 assert.deepEqual(qualityDecision(16,0,4,false,1.5,1.25,1.5),{ao:true,ratio:1.5})
 console.log('Quality verified: image floor, pixel budget, spike rejection, effects-first downgrade, gradual recovery.')
+
+assert.equal(resolutionRange(1920,1080,1,false).maximum,2,'Full HD must render a 4K internal image')
+assert.equal(resolutionRange(1920,1080,1,false).minimum,1.25,'Full HD must keep a supersampled floor')
+for (const [w,h,m] of [[1920,1080,false],[2560,1440,false],[390,844,true],[760,1200,true]]) {
+ const q=resolutionRange(w,h,3,m); assert.ok(w*h*q.maximum*q.maximum <= (m?2400000:8294400)+1,'Respect GPU pixel budget')
+}

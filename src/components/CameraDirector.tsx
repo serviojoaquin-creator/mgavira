@@ -4,9 +4,9 @@ import type { MutableRefObject } from 'react'
 import { atRoad, driveState, signStops, storyBeat } from '../experience/route'
 
 type Pose = { forward: number; side: number; height: number; fov: number; lookAhead: number }
-const hero: Pose = { forward: 6.4, side: 6.5, height: 3.2, fov: 40, lookAhead: .1 }
+const hero: Pose = { forward: 6.4, side: 6.5, height: 1.95, fov: 38, lookAhead: .1 }
 // Driver-height chase framing keeps the car anchored in the foreground.
-const chase: Pose = { forward: -7.4, side: .26, height: 2.65, fov: 48, lookAhead: 6.2 }
+const chase: Pose = { forward: -7.4, side: .26, height: 2.20, fov: 46, lookAhead: 6.2 }
 const finish: Pose = { forward: 5.8, side: -6.6, height: 2.6, fov: 40, lookAhead: .1 }
 const position = new Vector3()
 const target = new Vector3()

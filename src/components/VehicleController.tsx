@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, type MutableRefObject } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
-import { CanvasTexture, DoubleSide, Group, MathUtils, Mesh, MeshPhysicalMaterial, MeshStandardMaterial, Object3D } from 'three'
+import { CanvasTexture, DoubleSide, FrontSide, Group, MathUtils, Mesh, MeshPhysicalMaterial, MeshStandardMaterial, Object3D } from 'three'
 import { atRoad, driveState, routeLength } from '../experience/route'
 import { wheelRotation } from '../experience/wheels'
 
@@ -44,9 +44,9 @@ export function VehicleController({ progress, visualProgress }: {
       if (!(original instanceof MeshStandardMaterial)) return
       if (original.name.includes('Pearl white')) {
         object.material = new MeshPhysicalMaterial({
-          name: original.name, color: original.color, metalness: .13, roughness: .22,
-          clearcoat: 1, clearcoatRoughness: .075, envMapIntensity: 1.3,
-          side: DoubleSide,
+          name: original.name, color: original.color, metalness: .18, roughness: .19,
+          clearcoat: 1, clearcoatRoughness: .10, envMapIntensity: 1.1,
+          side: FrontSide,
         })
       } else if (original.name.toLowerCase().includes('glass')) {
         object.material = new MeshPhysicalMaterial({
@@ -56,7 +56,6 @@ export function VehicleController({ progress, visualProgress }: {
           side: DoubleSide,
         })
       } else {
-        original.side = DoubleSide
         original.envMapIntensity = original.name.toLowerCase().includes('chrome') ? 1.5 : 1.1
         original.needsUpdate = true
       }

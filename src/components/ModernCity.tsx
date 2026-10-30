@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { BoxGeometry, CanvasTexture, Color, InstancedMesh, Object3D, SRGBColorSpace, MeshPhysicalMaterial, type MeshStandardMaterial } from 'three'
+import { useTexture } from '@react-three/drei'
 import { atRoad, cityIntersections, routeLength } from '../experience/route'
 
 type V3 = [number, number, number]
@@ -33,27 +34,13 @@ export function BoxInstances({ blocks, color, roughness = .7, metalness = 0, map
   </instancedMesh>
 }
 
-// Subtle glass tint only. Reflections come from the HDR, not painted buildings.
-function reflectedGlass() {
-  const canvas = document.createElement('canvas')
-  canvas.width = 256; canvas.height = 384
-  const ctx = canvas.getContext('2d')!
-  const sky = ctx.createLinearGradient(0, 0, 0, 384)
-  sky.addColorStop(0, '#b8bebb'); sky.addColorStop(1, '#a6afad')
-  ctx.fillStyle = sky; ctx.fillRect(0, 0, 256, 384)
-  ctx.fillStyle = '#e2e5df10'; ctx.fillRect(0, 0, 2, 384)
-  const texture = new CanvasTexture(canvas)
-  texture.colorSpace = SRGBColorSpace; texture.anisotropy = 8
-  return texture
-}
-
 function mineralSurface() {
   const canvas = document.createElement('canvas'); canvas.width=512; canvas.height=512
   const ctx=canvas.getContext('2d')!; const pixels=ctx.createImageData(512,512)
   let seed=713
   const random=()=>{ seed=(Math.imul(seed,1664525)+1013904223)>>>0; return seed/4294967296 }
   for(let y=0;y<512;y++) for(let x=0;x<512;x++) {
-    const shade=232+random()*16+Math.sin(x*.025+y*.013)*3
+    const shade=210+random()*24+Math.sin(x*.025+y*.013)*11+Math.sin(y*.061)*4
     const i=(y*512+x)*4
     pixels.data[i]=shade; pixels.data[i+1]=shade; pixels.data[i+2]=shade-2; pixels.data[i+3]=255
   }
@@ -64,7 +51,7 @@ function mineralSurface() {
     ctx.fillStyle=`rgba(90,86,78,${.02+random()*.035})`
     ctx.fillRect(x,y,.5+random()*1.5,8+random()*90)
   }
-  ctx.fillStyle='#88827520'; ctx.fillRect(0,507,512,5)
+  ctx.fillStyle='#7a746630'; ctx.fillRect(0,507,512,5)
   const texture=new CanvasTexture(canvas); texture.colorSpace=SRGBColorSpace; texture.anisotropy=8
   return texture
 }
@@ -73,7 +60,7 @@ function facadeBlocks() {
   const parts: FacadeParts = { stone: [], glass: [], metal: [], bronze: [], dark: [], roof: [], shopglass: [], interior: [], lights: [] }
   const shops: { position: V3; yaw: number; style: number }[] = []
   const palette = ['#b7a48b', '#929b9c', '#d1c5b2', '#998d7a']
-  const glassTints = ['#779da4', '#668b96', '#91a7aa', '#597b87', '#a2b1ac']
+  const glassTints = ['#f0efeb', '#c8cfd0', '#e1e1da', '#bec8cb', '#d7d6cf']
 
   function building(t: number, side: number, index: number, distant = false) {
     const style = (index + (side < 0 ? 1 : 0)) % 4
@@ -247,9 +234,26 @@ function facadeBlocks() {
 
 export function ModernBuildings() {
   const { parts: blocks, shops } = useMemo(facadeBlocks, [])
-  const glass = useMemo(reflectedGlass, [])
+  const glass = useTexture('/media/v27/office-windows.webp')
   const mineral = useMemo(mineralSurface, [])
-  const glazing = useMemo(() => new MeshPhysicalMaterial({ color: '#ffffff', map: glass, roughness: .12, metalness: .30, clearcoat: .85, clearcoatRoughness: .06, envMapIntensity: 1.3 }), [glass])
+  const glazing = useMemo(() => {
+    glass.colorSpace = SRGBColorSpace; glass.anisotropy = 8
+    const material = new MeshPhysicalMaterial({ color: '#ffffff', map: glass, roughness: .24,
+      metalness: .12, clearcoat: .7, clearcoatRoughness: .16, envMapIntensity: .65 })
+    // Four photographic panes share one texture and one draw batch. No extra geometry.
+    material.onBeforeCompile = shader => {
+      shader.vertexShader = 'varying vec2 vPane;\n' + shader.vertexShader
+      shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', `#include <begin_vertex>
+        float pane = mod(floor(abs(instanceMatrix[3].x)*7. + abs(instanceMatrix[3].y)*13. + abs(instanceMatrix[3].z)*3.),4.);
+        vPane = vec2(mod(pane,2.),floor(pane/2.));`)
+      shader.fragmentShader = 'varying vec2 vPane;\n' + shader.fragmentShader
+      shader.fragmentShader = shader.fragmentShader.replace('#include <map_fragment>', `
+        vec2 paneUV = (clamp(vMapUv,vec2(.008),vec2(.992)) + vPane) * .5;
+        diffuseColor *= texture2D(map,paneUV);`)
+    }
+    material.customProgramCacheKey = () => 'office-panes-v27'
+    return material
+  }, [glass])
   const lettering = useMemo(() => ['CAFÉ DEL CENTRO','LIBRERÍA • PAPELERÍA','GALERÍA NORTE'].map((label,i) => {
     const canvas = document.createElement('canvas'); canvas.width=1024; canvas.height=128
     const ctx=canvas.getContext('2d')!
@@ -260,7 +264,7 @@ export function ModernBuildings() {
     const texture=new CanvasTexture(canvas); texture.colorSpace=SRGBColorSpace; texture.anisotropy=8
     return texture
   }),[])
-  useEffect(() => () => { glass.dispose(); mineral.dispose(); glazing.dispose(); lettering.forEach(t=>t.dispose()) }, [glass,mineral,lettering,glazing])
+  useEffect(() => () => { mineral.dispose(); glazing.dispose(); lettering.forEach(t=>t.dispose()) }, [glass,mineral,lettering,glazing])
   return <group>
     <BoxInstances blocks={blocks.stone} color="#ffffff" roughness={.83} map={mineral} bumpMap={mineral} />
     <BoxInstances blocks={blocks.glass} color="#ffffff" material={glazing} shadow={false} />

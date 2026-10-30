@@ -18,3 +18,8 @@ if (siteUrl) {
 } else {
   unlinkSync(sitemapPath)
 }
+
+// These orientation maps moved to v27; old immutable URLs are never reused.
+for (const name of ['asphalt-normal.webp', 'paving-normal.webp']) {
+  unlinkSync(new URL('../dist/media/v22/' + name, import.meta.url))
+}

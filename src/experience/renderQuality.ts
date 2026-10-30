@@ -1,9 +1,11 @@
 /** Resolution is shared by the canvas and every postprocess target. */
 export function resolutionRange(width: number, height: number, deviceRatio: number, compact: boolean) {
   const pixels = Math.max(1, width * height)
-  const ceiling = Math.min(2, Math.sqrt(3_600_000 / pixels))
-  const maximum = Math.max(1, Math.min(ceiling, Math.max(compact ? 1.75 : 1.5, deviceRatio)))
-  return { maximum, minimum: Math.min(maximum, pixels > 2_500_000 ? 1 : 1.25) }
+  // Supersample Full HD at 2x; cap GPU memory independently on handheld screens.
+  const budget = compact ? 2_400_000 : 8_294_400
+  const ceiling = Math.min(2, Math.sqrt(budget / pixels))
+  const maximum = Math.max(1, Math.min(ceiling, Math.max(2, deviceRatio)))
+  return { maximum, minimum: Math.min(maximum, Math.max(1, Math.min(1.25, Math.sqrt(3_240_000 / pixels)))) }
 }
 
 /** Sustained load only: reduce AO before resolution, recover after a longer quiet interval. */

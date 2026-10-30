@@ -167,7 +167,7 @@
 }
 @media(prefers-reduced-motion:reduce){.hero-explore{transition:none}}
 .arrival-hidden{display:none}
-@media(max-width:760px){.scene-vignette{background:linear-gradient(180deg,#151318e6 10%,#151318b8 37%,#15131812 51%,#151318c9 80%,#151318f7)}}
+@media(max-width:760px){.scene-vignette{background:linear-gradient(180deg,#151318c9 8%,#1513186b 28%,#1513180a 44%,transparent 59%,#151318c9 83%,#151318f7)}}
 
 /* A stronger typographic focal point, without covering the parked car. */
 .hero-copy h1{font-weight:800;font-size:clamp(74px,6.6vw,108px);line-height:.96;letter-spacing:-.065em}
