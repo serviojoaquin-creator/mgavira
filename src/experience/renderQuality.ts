@@ -5,7 +5,7 @@ export function resolutionRange(width: number, height: number, deviceRatio: numb
   const budget = compact ? 2_400_000 : 8_294_400
   const ceiling = Math.min(2, Math.sqrt(budget / pixels))
   const maximum = Math.max(1, Math.min(ceiling, Math.max(2, deviceRatio)))
-  return { maximum, minimum: Math.min(maximum, Math.max(1, Math.min(1.5, Math.sqrt(4_665_600 / pixels)))) }
+  return { maximum, minimum: Math.min(maximum, Math.max(1, Math.min(1.25, Math.sqrt(3_240_000 / pixels)))) }
 }
 
 /** Sustained load only: reduce AO before resolution, recover after a longer quiet interval. */
