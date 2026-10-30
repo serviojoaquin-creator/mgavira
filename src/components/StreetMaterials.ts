@@ -5,8 +5,8 @@ import { CanvasTexture, MeshStandardMaterial, NoColorSpace, RepeatWrapping, SRGB
 /** Photographic CC0 surfaces, tiled in metres instead of stretching over the avenue. */
 export function useStreetMaterials() {
   const source = useTexture([
-    '/media/v22/asphalt-color.webp', '/media/v22/asphalt-normal.webp', '/media/v22/asphalt-arm.webp',
-    '/media/v22/paving-color.webp', '/media/v22/paving-normal.webp', '/media/v22/paving-arm.webp',
+    '/media/v22/asphalt-color.webp', '/media/v27/asphalt-normal.webp', '/media/v22/asphalt-arm.webp',
+    '/media/v22/paving-color.webp', '/media/v27/paving-normal.webp', '/media/v22/paving-arm.webp',
   ])
   const materials = useMemo(() => {
     const textures = [] as CanvasTexture[]
@@ -19,16 +19,16 @@ export function useStreetMaterials() {
         return copy
       })
       const material = new MeshStandardMaterial({
-        color: paving ? '#e1ded5' : '#b0b3b5',
+        color: paving ? '#e1ded5' : '#9a9c9c',
         map: maps[0], normalMap: maps[1], roughnessMap: maps[2], aoMap: maps[2],
         aoMapIntensity: .65, roughness: .93,
-        normalScale: new Vector2(paving ? .55 : .38, paving ? .55 : .38),
+        normalScale: new Vector2(paving ? .35 : .19, paving ? .35 : .19),
       })
       return { material, maps }
     }
-    const road = surface(false, 4 / 3, 9.2 / 3)
-    const crossing = surface(false, 9.25 / 3, 72 / 3)
-    const roadEnd = surface(false, 44 / 3, 9.2 / 3)
+    const road = surface(false, 4 / 1.5, 9.2 / 1.5)
+    const crossing = surface(false, 9.25 / 1.5, 72 / 1.5)
+    const roadEnd = surface(false, 44 / 1.5, 9.2 / 1.5)
     const paving = surface(true, 4 / 1.8, 5.08 / 1.8)
     const pavingEnd = surface(true, 44 / 1.8, 5.08 / 1.8)
     const canvas = document.createElement('canvas'); canvas.width = canvas.height = 128

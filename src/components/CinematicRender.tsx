@@ -25,7 +25,7 @@ export function CinematicRender({ compact, progress }: { compact: boolean; progr
   useEffect(() => {
     const hdr = gl.extensions.has('EXT_color_buffer_float')
     const target = new WebGLRenderTarget(1, 1, {
-      type: hdr ? HalfFloatType : UnsignedByteType, samples: Math.min(4, gl.capabilities.maxSamples),
+      type: hdr ? HalfFloatType : UnsignedByteType, samples: Math.min(2, gl.capabilities.maxSamples),
       depthTexture: new DepthTexture(1, 1, UnsignedIntType),
     })
     const composer = new EffectComposer(gl, target)
