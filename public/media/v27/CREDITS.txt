@@ -1,0 +1,1 @@
+office-windows.webp: Original AI-generated architectural texture atlas, OpenAI Image Generation, 2026-10-30. Used only on the 3D building window surfaces.
