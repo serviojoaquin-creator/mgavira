@@ -67,3 +67,22 @@ html:has(.site-view-static){background:#f8f7f4;scroll-padding-top:110px}
 @media(max-width:1000px){.insurance-partners-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:760px){.insurance-partners-heading{display:block}.insurance-partners-heading>p{max-width:400px;margin-top:15px}.insurance-partners-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.insurance-partners-grid>li{padding:14px 10px 11px;min-height:105px}.insurance-partners-footer{display:block}.insurance-partners-footer .sl-text-link{margin-top:8px}.site-view-static .insurance-partners{margin-bottom:36px}}
 @media(max-width:520px){.insurance-partners-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.insurance-partners-grid>li{min-height:100px}.insurance-partner-name{font-size:9px}.insurance-partners-heading h3{font-size:29px}}
+
+/* Supplied artwork: complete shapes, native proportions, no photo crops. */
+.site-view-static .sl-hero-photo{background:#fff;border-radius:24px;inset:5px 0 76px 0}
+.site-view-static .sl-hero-photo img{object-fit:contain;object-position:center 25%;height:calc(100% - 90px)}
+.site-view-static .sl-hero-photo::after{display:none}
+.site-view-static .sl-hero-photo figcaption{background:#241b2e;bottom:0;left:0;right:0;padding:18px 24px}
+.site-view-static .sl-hero-photo figcaption strong{font-size:23px}
+.site-view-static .sl-hero-inset{width:35%;left:auto;right:0;transform:rotate(3deg)}
+.site-view-static .sl-hero-inset img{aspect-ratio:1;object-fit:contain;height:auto}
+.site-view-static .sl-hero-inset figcaption{font-size:8px}
+.site-view-static .sl-services-visual{background:#fff;border:1px solid #e5dce9}
+.site-view-static .sl-services-visual>img.is-active{object-fit:contain;height:calc(100% - 115px);width:calc(100% - 40px);max-width:320px;left:50%;top:15px;transform:translateX(-50%)}
+.site-view-static .sl-services-visual::after{display:none}
+.site-view-static .sl-service-photo-caption{background:#f2edf5;bottom:0;left:0;right:0;padding:20px 24px;color:#382643;gap:8px}
+.site-view-static .sl-service-photo-caption>span:first-child,.site-view-static .sl-photo-index{color:#70567e}
+.site-view-static .sl-service-photo-caption strong{font-size:23px}
+.site-view-static .sl-commitment-photo{background:#fff;border-radius:24px;border:1px solid #e5dce9;min-height:460px;padding:24px 24px 110px}
+.site-view-static .sl-commitment-photo>img{object-fit:contain;border-radius:0;max-height:380px;object-position:center}
+@media(max-width:760px){.site-view-static .sl-hero-photo{inset:0 0 65px}.site-view-static .sl-hero-inset{width:33%}.site-view-static .sl-commitment-photo{height:400px;min-height:0}.site-view-static .sl-commitment-photo>img{height:260px}.site-view-static .sl-services-visual{aspect-ratio:auto;height:425px}}
