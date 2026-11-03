@@ -51,8 +51,8 @@ export function StaticHero() {
       </div>
       <div className="sl-hero-art" data-reveal>
         <div className="sl-hero-orbit" aria-hidden="true"><svg viewBox="0 0 600 600"><path d="M100 520C-30 310 65 20 315 50S680 265 505 470 140 660 100 520Z" /></svg></div>
-        <figure className="sl-hero-photo"><img src="/media/v24/familia.webp" alt="Una familia abrazada y sonriente al aire libre." width="768" height="512" fetchPriority="high" /><figcaption><span>Lo más importante del viaje</span><strong>son las personas.</strong></figcaption></figure>
-        <figure className="sl-hero-inset"><img src="/media/v24/acompanamiento.webp" alt="Una madre acompaña a su hija durante un viaje en auto." width="730" height="375" /><figcaption><span />Un traslado. Mucho cuidado.</figcaption></figure>
+        <figure className="sl-hero-photo"><img src="/media/v28/cronos-buenos-aires.webp" alt="Fiat Cronos blanco en una avenida de Buenos Aires." width="1600" height="900" fetchPriority="high" /><figcaption><span>Lo más importante del viaje</span><strong>son las personas.</strong></figcaption></figure>
+        <figure className="sl-hero-inset"><img src="/media/v28/accesibilidad.webp" alt="Símbolo de accesibilidad universal." width="466" height="462" /><figcaption><span />Un traslado. Mucho cuidado.</figcaption></figure>
         <a className="sl-cud-badge" href="#cud"><ShieldCheck size={24} aria-hidden="true" /><span>Trabajamos con CUD<strong>Conocé cómo te acompañamos</strong></span><ArrowUpRight size={16} aria-hidden="true" /></a>
         <span className="sl-art-note" aria-hidden="true">CADA FAMILIA, UN RECORRIDO.</span>
       </div>
@@ -67,7 +67,7 @@ function ServiceSection() {
     <div className="sl-section-top" data-reveal><div><p className="sl-eyebrow">01 / NUESTROS SERVICIOS</p><h2 id="services-title">Tu rutina, con un<br /><em>mejor recorrido.</em></h2></div></div>
     <div className="sl-services-layout">
       <div className="sl-services-visual" data-reveal>
-        <img className="is-active" src="/media/v24/acompanamiento.webp" alt="Una madre acompaña a su hija durante un viaje en auto." width="730" height="375" loading="lazy" decoding="async" />
+        <img className="is-active" src="/media/v28/inclusion.webp" alt="Lazo de piezas de colores que representa la concientización sobre el autismo." width="320" height="320" loading="lazy" decoding="async" />
         <div className="sl-service-photo-caption"><span>EL CUIDADO VIAJA CON VOS</span><strong>Cerca, en cada recorrido.</strong></div>
       </div>
       <div className="sl-service-overview" data-reveal>
@@ -102,7 +102,7 @@ function CoverageSection() {
 
 function CommitmentSection() {
   const icons = [ShieldCheck, Clock3, HeartHandshake, MessageCircle]
-  return <section id="why" className="journey-chapter sl-section sl-commitment" aria-labelledby="why-title"><div className="sl-commitment-photo" data-reveal><img src="/media/v25/familia-acompanamiento.webp" alt="Una madre y su hija comparten un abrazo y sonríen en casa." width="960" height="640" loading="lazy" decoding="async" /><div className="sl-experience-stamp"><strong>6</strong><span>AÑOS DE<br />EXPERIENCIA</span><Sparkles size={21} aria-hidden="true" /></div></div><div className="sl-commitment-copy" data-reveal><p className="sl-eyebrow">03 / NUESTRA FORMA DE ACOMPAÑAR</p><h2 id="why-title">La diferencia<br />está en <em>el cuidado.</em></h2><div className="sl-values">{reasons.map((item,i)=>{const Icon=icons[i];return <div key={item.title}><Icon size={21} aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.text}</p></div></div>})}</div><a className="sl-text-link" href={whatsapp(messages.main)} target="_blank" rel="noopener noreferrer">Hablemos de lo que necesitás <ArrowUpRight size={17} aria-hidden="true" /></a></div></section>
+  return <section id="why" className="journey-chapter sl-section sl-commitment" aria-labelledby="why-title"><div className="sl-commitment-photo" data-reveal><img src="/media/v28/cuidado.webp" alt="Ilustración de dos manos que sostienen un corazón." width="1025" height="980" loading="lazy" decoding="async" /><div className="sl-experience-stamp"><strong>6</strong><span>AÑOS DE<br />EXPERIENCIA</span><Sparkles size={21} aria-hidden="true" /></div></div><div className="sl-commitment-copy" data-reveal><p className="sl-eyebrow">03 / NUESTRA FORMA DE ACOMPAÑAR</p><h2 id="why-title">La diferencia<br />está en <em>el cuidado.</em></h2><div className="sl-values">{reasons.map((item,i)=>{const Icon=icons[i];return <div key={item.title}><Icon size={21} aria-hidden="true" /><div><h3>{item.title}</h3><p>{item.text}</p></div></div>})}</div><a className="sl-text-link" href={whatsapp(messages.main)} target="_blank" rel="noopener noreferrer">Hablemos de lo que necesitás <ArrowUpRight size={17} aria-hidden="true" /></a></div></section>
 }
 
 function CUDSection() {
