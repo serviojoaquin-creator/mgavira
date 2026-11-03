@@ -23,3 +23,8 @@ if (siteUrl) {
 for (const name of ['asphalt-normal.webp', 'paving-normal.webp']) {
   unlinkSync(new URL('../dist/media/v22/' + name, import.meta.url))
 }
+
+// People photos replaced by user-supplied artwork in v28.
+for (const name of ['v24/acompanamiento.webp','v24/familia.webp','v25/familia-acompanamiento.webp']) {
+  unlinkSync(new URL('../dist/media/' + name, import.meta.url))
+}
