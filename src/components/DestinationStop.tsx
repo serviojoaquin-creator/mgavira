@@ -10,7 +10,7 @@ export function DestinationStop() {
     const canvas = document.createElement('canvas'); canvas.width = 1024; canvas.height = 320
     const ctx = canvas.getContext('2d')!
     ctx.fillStyle = '#201a28'; ctx.fillRect(0, 0, 1024, 320)
-    ctx.fillStyle = '#c77af2'; ctx.font = '500 29px Arial'; ctx.fillText('TRANSPORTE MGAVIRA', 64, 74)
+    ctx.fillStyle = '#c77af2'; ctx.font = '500 29px Arial'; ctx.fillText('TRANSPORTES MGAVIRA', 64, 74)
     ctx.fillStyle = '#f1f2e8'; ctx.font = '600 92px Arial'; ctx.fillText('Llegaste.', 60, 186)
     ctx.fillStyle = '#e2dbe7'; ctx.font = '28px Arial'; ctx.fillText('Cerca, de principio a fin.', 64, 255)
     ctx.strokeStyle = '#c77af2'; ctx.lineWidth = 7; ctx.beginPath(); ctx.arc(864, 157, 60, 0, Math.PI*2); ctx.stroke()

@@ -1,12 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type MutableRefObject } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { useTexture } from '@react-three/drei'
-import { insuranceLogoAtlas, insurancePartners } from '../data/insurancePartners'
+import { InsuranceLogoCarousel } from './InsuranceLogoCarousel'
 import { CanvasTexture, Group, MathUtils, SRGBColorSpace } from 'three'
 import { atRoad, driveState } from '../experience/route'
 import { SignContactLink } from './SignContactLink'
-import { chapters, insuranceCoverage, insuranceSteps, reasons, serviceOverview, signMessage, type PanelId } from '../data/site'
-useTexture.preload(insuranceLogoAtlas.src)
+import { chapters, insuranceCoverage, reasons, serviceOverview, signMessage, type PanelId } from '../data/site'
 
 const W = 1400, H = 1900
 const white = '#f3f7f3', muted = '#e0dae6', mint = '#cf98f0'
@@ -23,21 +21,7 @@ function wrap(ctx: CanvasRenderingContext2D, value: string, x: number, y: number
   return y
 }
 
-function drawInsuranceLogos(ctx: CanvasRenderingContext2D, image: CanvasImageSource, top: number) {
-  const columns = 4, gap = 16, width = (1210 - gap * (columns - 1)) / columns, height = 72
-  insurancePartners.forEach((partner, index) => {
-    const x = 95 + index % columns * (width + gap)
-    const y = top + Math.floor(index / columns) * (height + 14)
-    ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.roundRect(x, y, width, height, 8); ctx.fill()
-    const [sx, sy, sw, sh] = partner.crop
-    const fit = Math.min((width - 22) / sw, (height - 14) / sh)
-    const dw = sw * fit, dh = sh * fit
-    ctx.drawImage(image, sx, sy, sw, sh, x + (width - dw) / 2, y + (height - dh) / 2, dw, dh)
-  })
-  return top + Math.ceil(insurancePartners.length / columns) * (height + 14)
-}
-
-function createSignTexture(id: PanelId, logoImage: CanvasImageSource) {
+function createSignTexture(id: PanelId) {
   const chapter = chapters.find(item => item.id === id)!
   const index = chapters.findIndex(item => item.id === id) + 1
   const canvas = document.createElement('canvas')
@@ -54,7 +38,7 @@ function createSignTexture(id: PanelId, logoImage: CanvasImageSource) {
   ctx.fillStyle = mint; ctx.fillRect(88, 97, 16, 80)
   ctx.textBaseline = 'top'
   ctx.fillStyle = muted; ctx.font = '700 35px Arial, sans-serif'
-  ctx.fillText('TRANSPORTE MGAVIRA  /  BUENOS AIRES', 134, 111)
+  ctx.fillText('TRANSPORTES MGAVIRA  /  BUENOS AIRES', 134, 111)
   ctx.textAlign = 'right'; ctx.fillText(`0${index} / 04`, 1305, 111); ctx.textAlign = 'left'
   ctx.fillStyle = white; ctx.font = '800 88px Arial, sans-serif'
   let y = wrap(ctx, chapter.sign, 94, 205, 1210, 103)
@@ -104,30 +88,29 @@ function createSignTexture(id: PanelId, logoImage: CanvasImageSource) {
     y = wrap(ctx, chapter.heading, 95, y, 1180, 70) + 39
     y = rows(reasons, y, true)
     ctx.fillStyle = mint; ctx.font = '700 49px Arial, sans-serif'
-    y = wrap(ctx, '6 años de experiencia acompañando a las familias en sus necesidades de traslado.', 95, y + 6, 1190, 63)
+    y = wrap(ctx, '7 años de experiencia acompañando a las familias en sus necesidades de traslado.', 95, y + 6, 1190, 63)
   } else {
-    ctx.fillStyle = muted; ctx.font = '500 43px Arial, sans-serif'
-    y = wrap(ctx, 'Trabajamos con estas obras sociales y prepagas, y otras más.', 95, y + 4, 1190, 55) + 17
-    y = drawInsuranceLogos(ctx, logoImage, y) + 8
-    ctx.fillStyle = mint; ctx.font = '800 50px Arial, sans-serif'
-    y = wrap(ctx, insuranceCoverage.title, 95, y, 1190, 61) + 6
-    ctx.fillStyle = white; ctx.font = '500 40px Arial, sans-serif'
-    y = wrap(ctx, insuranceCoverage.text, 95, y, 1190, 50) + 5
-    ctx.fillStyle = muted; ctx.font = '400 35px Arial, sans-serif'
-    y = wrap(ctx, insuranceCoverage.requirements, 95, y, 1190, 44) + 17
-    insuranceSteps.forEach(step => {
-      ctx.fillStyle = white; ctx.font = '700 35px Arial, sans-serif'
-      y = wrap(ctx, step.number + '  ' + step.title, 95, y, 1190, 43)
-      ctx.fillStyle = muted; ctx.font = '400 33px Arial, sans-serif'
-      y = wrap(ctx, step.text, 95, y + 3, 1190, 41) + 12
-    })
-    ctx.fillStyle = mint; ctx.font = '500 32px Arial, sans-serif'
-    y = wrap(ctx, 'La disponibilidad y las autorizaciones están sujetas a evaluación y a las condiciones de cada cobertura.', 95, y + 4, 1190, 40)
+    ctx.fillStyle = muted; ctx.font = '500 58px Arial, sans-serif'
+    wrap(ctx, 'Trabajamos con obras sociales y prepagas.', 95, y, 1190, 72)
+    // Dark recessed window behind the individual rounded logo cards.
+    ctx.fillStyle = '#17131d'; ctx.beginPath(); ctx.roundRect(95, 540, 1210, 270, 24); ctx.fill()
+    ctx.strokeStyle = '#55425f'; ctx.lineWidth = 2; ctx.stroke()
+    ctx.fillStyle = mint; ctx.font = '800 82px Arial, sans-serif'
+    y = wrap(ctx, insuranceCoverage.title, 95, 855, 1190, 98) + 18
+    ctx.fillStyle = white; ctx.font = '500 58px Arial, sans-serif'
+    y = wrap(ctx, 'La obra social cubre el traslado al 100% según la Ley 24.901.', 95, y, 1190, 74) + 16
+    ctx.fillStyle = muted; ctx.font = '500 53px Arial, sans-serif'
+    y = wrap(ctx, insuranceCoverage.requirements, 95, y, 1190, 68) + 24
+    ctx.fillStyle = white; ctx.font = '700 55px Arial, sans-serif'
+    y = wrap(ctx, 'Te acompañamos durante la gestión.', 95, y, 1190, 70) + 18
+    ctx.fillStyle = muted; ctx.font = '400 43px Arial, sans-serif'
+    y = wrap(ctx, 'Disponibilidad y autorizaciones sujetas a evaluación y a las condiciones de tu cobertura.', 95, y, 1190, 55)
+
   }
 
   ctx = header
   const bodyHeight = y - bodyTop
-  const scale = Math.min(1, (1520 - bodyTop) / bodyHeight)
+  const scale = id === 'insurance' ? 1 : Math.min(1, (1520 - bodyTop) / bodyHeight)
   ctx.drawImage(body, 0, bodyTop, W, bodyHeight, (W - W * scale) / 2, bodyTop, W * scale, bodyHeight * scale)
   // The matching HTML link sits on this reserved button area.
   ctx.fillStyle = '#00bf90'; ctx.fillRect(95, 1580, 1210, 136)
@@ -149,8 +132,7 @@ export function InteractiveRoadSign({ id, stop, progress, onOpen }: {
   const ref = useRef<Group>(null)
   const { point, tangent } = atRoad(stop, 7.15)
   const yaw = Math.atan2(-tangent.z, tangent.x) + Math.PI
-  const logoAtlas = useTexture(insuranceLogoAtlas.src)
-  const texture = useMemo(() => createSignTexture(id, logoAtlas.image as CanvasImageSource), [id, logoAtlas])
+  const texture = useMemo(() => createSignTexture(id), [id])
   useEffect(() => () => texture.dispose(), [texture])
   useFrame((_, delta) => {
     if (!ref.current) return
@@ -176,6 +158,7 @@ export function InteractiveRoadSign({ id, stop, progress, onOpen }: {
         <planeGeometry args={[6.2, 8.42]} />
         <meshStandardMaterial map={texture} roughness={.67} metalness={.02} emissive="#173b3e" emissiveIntensity={.12} />
       </mesh>
+      {id === 'insurance' && <InsuranceLogoCarousel progress={progress} stop={stop} />}
       <SignContactLink position={[0, 1.557, .18]} message={signMessage(id)} label={`Contactar por WhatsApp sobre ${chapters.find(chapter => chapter.id === id)!.sign.toLowerCase()}`} />
     </group>
   </group>

@@ -20,7 +20,7 @@ export function InfoPanel({ panel, onClose }: { panel: PanelId | null; onClose: 
   const chapter = chapters.find(x => x.id === panel)!
   return <div className="panel-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) onClose() }}>
     <section className="info-panel" role="dialog" aria-modal="true" aria-labelledby="panel-title" tabIndex={-1}>
-      <div className="panel-top"><span className="eyebrow">{chapter.eyebrow} · TRANSPORTE MGAVIRA</span><button ref={closeRef} className="icon-button" type="button" aria-label="Cerrar información" onClick={onClose}><X size={22} /></button></div>
+      <div className="panel-top"><span className="eyebrow">{chapter.eyebrow} · TRANSPORTES MGAVIRA</span><button ref={closeRef} className="icon-button" type="button" aria-label="Cerrar información" onClick={onClose}><X size={22} /></button></div>
       <h2 id="panel-title">{chapter.heading}</h2>
       {panel === 'services' && <>
         {serviceOverview.paragraphs.map(paragraph => <p className="panel-lede" key={paragraph}>{paragraph}</p>)}
@@ -43,7 +43,7 @@ export function InfoPanel({ panel, onClose }: { panel: PanelId | null; onClose: 
         <a className="button button-primary" href={whatsapp(messages.main)} target="_blank" rel="noopener noreferrer">Contactanos por WhatsApp <ArrowUpRight size={18} /></a>
       </>}
       {panel === 'insurance' && <>
-        <p className="panel-lede">En Transporte MGavira trabajamos con obras sociales y prepagas y ofrecemos orientación para gestionar las autorizaciones correspondientes.</p>
+        <p className="panel-lede">En Transportes MGavira trabajamos con obras sociales y prepagas y ofrecemos orientación para gestionar las autorizaciones correspondientes.</p>
         <div className="insurance-coverage"><h3>{insuranceCoverage.title}</h3><p>{insuranceCoverage.text}</p><small>{insuranceCoverage.requirements}</small></div>
         <div className="steps">{insuranceSteps.map(step => <article key={step.number}><span>{step.number}</span><div><h3>{step.title}</h3><p>{step.text}</p></div></article>)}</div>
         <p className="fine-print">La disponibilidad del servicio y las autorizaciones están sujetas a evaluación y a las condiciones de cada cobertura.</p>

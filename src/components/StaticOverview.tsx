@@ -47,7 +47,7 @@ export function StaticHero() {
         <h1 id="hero-title">Hay viajes<br />que empiezan<br />con <em>confianza.</em></h1>
         <p className="sl-hero-lede">A terapias, al Centro Educativo Terapéutico (CET), al colegio. Te acompañamos con la tranquilidad de saber que estás en buenas manos.</p>
         <div className="sl-hero-actions"><ContactLink>Coordinemos tu traslado</ContactLink><a className="sl-text-link" href="#services">Conocé los servicios <ArrowDown size={16} aria-hidden="true" /></a></div>
-        <div className="sl-hero-proof"><div className="sl-proof-icon"><HeartHandshake size={23} aria-hidden="true" /></div><p><strong>Cerca, de principio a fin.</strong><span>6 años acompañando a las familias.</span></p></div>
+        <div className="sl-hero-proof"><div className="sl-proof-icon"><HeartHandshake size={23} aria-hidden="true" /></div><p><strong>Cerca, de principio a fin.</strong><span>7 años acompañando a las familias.</span></p></div>
       </div>
       <div className="sl-hero-art" data-reveal>
         <div className="sl-hero-orbit" aria-hidden="true"><svg viewBox="0 0 600 600"><path d="M100 520C-30 310 65 20 315 50S680 265 505 470 140 660 100 520Z" /></svg></div>

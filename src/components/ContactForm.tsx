@@ -9,7 +9,7 @@ export function ContactForm() {
     const data = new FormData(event.currentTarget)
     const value = (key: string) => String(data.get(key) ?? '').trim()
     const message = [
-      'Hola, buen día. Me comunico desde la página web de Transporte MGavira. Quisiera consultar por un traslado.',
+      'Hola, buen día. Me comunico desde la página web de Transportes MGavira. Quisiera consultar por un traslado.',
       `Tipo de traslado: ${value('type')}`,
       `Días solicitados: ${value('days')}`,
       `Horarios: ${value('times')}`,
