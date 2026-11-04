@@ -35,7 +35,7 @@ export function DestinationStop() {
 
 function PlanterFoliage() {
   const ref = useRef<InstancedMesh>(null)
-  const foliage = useTexture('/media/v20/follaje.webp')
+  const foliage = useTexture('/media/v29/follaje.webp')
   useLayoutEffect(() => {
     const dummy = new Object3D()
     for (let i = 0; i < 72; i++) {

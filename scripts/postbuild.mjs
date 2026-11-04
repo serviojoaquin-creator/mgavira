@@ -28,3 +28,8 @@ for (const name of ['asphalt-normal.webp', 'paving-normal.webp']) {
 for (const name of ['v24/acompanamiento.webp','v24/familia.webp','v25/familia-acompanamiento.webp']) {
   unlinkSync(new URL('../dist/media/' + name, import.meta.url))
 }
+
+// Same dimensions/artwork, lighter WebP encoding under new immutable URLs.
+for (const name of ['follaje.webp', 'corteza.webp']) {
+  unlinkSync(new URL('../dist/media/v20/' + name, import.meta.url))
+}

@@ -7,6 +7,7 @@ import { wheelRotation } from '../experience/wheels'
 
 import { CityPedestrians, type Person } from './CityPedestrians'
 const paintColors = ['#c5a537', '#294d65', '#78888c', '#754a43', '#395651']
+useGLTF.preload('/media/v22/traffic-cronos.glb', '/draco/v1/', false)
 
 /** One draw per part for the whole fleet, including independently rolling wheels. */
 function TrafficFleet({ count }: { count: number }) {

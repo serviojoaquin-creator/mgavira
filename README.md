@@ -163,3 +163,11 @@ La landing muestra una grilla adaptable, con nombres accesibles y consulta por c
 Ventanas con cuatro variaciones de textura arquitectónica, interiores, persianas y reflejos, conservando un único lote instanciado. Atlas original generado con IA; no es fotografía del negocio. Reflejos urbanos HDR sobre la carrocería, cámara inicial más baja, sombras suaves estabilizadas y actualización limitada a 20 Hz también durante el avance. Asfalto de grano más fino con normales menos agresivas y archivos versionados. Se mantiene el auto 3D, su geometría y las ruedas, el recorrido y los carteles.
 
 El render admite hasta 2x con presupuesto de 8,29 millones de píxeles en escritorio y 2,4 millones en móvil, MSAA 2x y adaptación hasta 1,25x en pantallas habituales. No garantiza una tasa de FPS en cualquier equipo. Sigue siendo una reconstrucción 3D interactiva, no una filmación ni una réplica fotorrealista certificada.
+
+### Carga y fluidez v29 (configuración vigente)
+
+La resolución respeta la densidad nativa, con inicio de hasta 1,5x y presupuesto de 3 millones de píxeles en escritorio / 1,6 millones en móvil (sin bajar de 1x). MSAA 2x conserva bordes suavizados. Móvil omite AO de pantalla, manteniendo sombras y AO de materiales. La adaptación usa muestras de 1,25 segundos e incluye cuadros lentos: desactiva AO primero y recupera resolución gradualmente. Sombras de 1024 px en móvil / 2048 px en escritorio; 8 Hz detenido y 20 Hz en movimiento.
+
+Los recursos principales se solicitan en paralelo. El inicio se desbloquea tras dibujar la escena visible; la preparación de materiales de tramos posteriores continúa sin retener la pantalla de carga. La imagen decorativa del cargador ya no bloquea el acceso. El recorrido se pausa al ocultar la pestaña o quedar cubierto por el formulario y vuelve a activarse al regresar. Las actualizaciones del progreso de carga no vuelven a renderizar toda la escena React.
+
+Follaje y corteza se recodifican como WebP v29 conservando dimensiones y transparencia. URLs nuevas para no invalidar la caché inmutable; las copias anteriores se excluyen del build. Se agregan cabeceras de caché para v25 a v29. Las métricas opcionales de `?qualityAudit=1` incluyen `canvas.dataset.loadStats` y `sceneReadyMs`, solo locales al navegador; no son analítica remota ni una garantía de FPS para todos los dispositivos.

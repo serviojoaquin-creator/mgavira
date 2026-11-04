@@ -2,12 +2,15 @@ import { useEffect, useMemo } from 'react'
 import { useTexture } from '@react-three/drei'
 import { CanvasTexture, MeshStandardMaterial, NoColorSpace, RepeatWrapping, SRGBColorSpace, Vector2 } from 'three'
 
-/** Photographic CC0 surfaces, tiled in metres instead of stretching over the avenue. */
-export function useStreetMaterials() {
-  const source = useTexture([
+const surfaceMaps = [
     '/media/v22/asphalt-color.webp', '/media/v27/asphalt-normal.webp', '/media/v22/asphalt-arm.webp',
     '/media/v22/paving-color.webp', '/media/v27/paving-normal.webp', '/media/v22/paving-arm.webp',
-  ])
+  ]
+useTexture.preload(surfaceMaps)
+
+/** Photographic CC0 surfaces, tiled in metres instead of stretching over the avenue. */
+export function useStreetMaterials() {
+  const source = useTexture(surfaceMaps)
   const materials = useMemo(() => {
     const textures = [] as CanvasTexture[]
     const surface = (paving: boolean, x: number, y: number) => {

@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { BoxGeometry, CanvasTexture, Color, InstancedMesh, Object3D, SRGBColorSpace, MeshPhysicalMaterial, type MeshStandardMaterial } from 'three'
 import { useTexture } from '@react-three/drei'
 import { atRoad, cityIntersections, routeLength } from '../experience/route'
+useTexture.preload('/media/v27/office-windows.webp')
 
 type V3 = [number, number, number]
 type Block = { position: V3; size: V3; yaw: number; color?: string }

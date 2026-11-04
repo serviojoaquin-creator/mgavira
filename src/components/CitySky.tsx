@@ -3,10 +3,12 @@ import { useLoader, useThree } from '@react-three/fiber'
 import { EquirectangularReflectionMapping, PMREMGenerator } from 'three'
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js'
 
+const panoramas = ['/media/v20/daylight-sky.hdr', '/media/v20/urban-street.hdr']
+useLoader.preload(HDRLoader, panoramas)
 /** Local CC0 panoramas: real cloud detail and filtered urban reflections. */
 export function CitySky() {
   const { scene, gl } = useThree()
-  const [sky, street] = useLoader(HDRLoader, ['/media/v20/daylight-sky.hdr', '/media/v20/urban-street.hdr'])
+  const [sky, street] = useLoader(HDRLoader, panoramas)
   useEffect(() => {
     const previous = { background: scene.background, environment: scene.environment,
       intensity: scene.environmentIntensity, backgroundIntensity: scene.backgroundIntensity,

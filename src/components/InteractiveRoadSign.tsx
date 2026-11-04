@@ -6,6 +6,7 @@ import { CanvasTexture, Group, MathUtils, SRGBColorSpace } from 'three'
 import { atRoad, driveState } from '../experience/route'
 import { SignContactLink } from './SignContactLink'
 import { chapters, insuranceCoverage, insuranceSteps, reasons, serviceOverview, signMessage, type PanelId } from '../data/site'
+useTexture.preload(insuranceLogoAtlas.src)
 
 const W = 1400, H = 1900
 const white = '#f3f7f3', muted = '#e0dae6', mint = '#cf98f0'

@@ -13,6 +13,8 @@ import { ElevatedStreetSigns } from './ElevatedStreetSigns'
 import { avenuePosters } from '../data/avenuePosters'
 import { useStreetMaterials } from './StreetMaterials'
 
+const treeMaps = ['/media/v29/corteza.webp', '/media/v29/follaje.webp']
+useTexture.preload(treeMaps)
 function ribbon(a: number, b: number, height: number, segments = 240, start = 0, end = 1) {
   const vertices: number[] = []
   const indices: number[] = []
@@ -240,8 +242,7 @@ function Tree({ position, height = 6, seed = 1, species = 0, compact = false, ba
 }
 
 function Vegetation({ compact }: { compact: boolean }) {
-  const bark = useTexture('/media/v20/corteza.webp')
-  const foliage = useTexture('/media/v20/follaje.webp')
+  const [bark, foliage] = useTexture(treeMaps)
   bark.colorSpace = SRGBColorSpace
   bark.wrapS = RepeatWrapping; bark.wrapT = RepeatWrapping
   bark.repeat.set(1, 2)
