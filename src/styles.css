@@ -198,7 +198,7 @@
 @media(prefers-reduced-motion:reduce){.loading-car-wheel{animation:none}.loading-car,.loading-road-fill{transition:none}.loading-screen{transition:opacity .1s ease .45s}}
 
 /* Compact loading screen with a photographic Cronos and frame-smoothed travel. */
-.loading-screen{transition:opacity .35s ease .25s}
+.loading-screen{transition:opacity .25s ease}
 .loading-content{width:min(330px,calc(100% - 64px));padding-bottom:10px}
 .loading-logo{width:160px;height:160px;margin-bottom:48px}
 .loading-road{height:38px;border-top-width:1px;border-bottom-width:1px;box-shadow:0 7px 20px #0002}

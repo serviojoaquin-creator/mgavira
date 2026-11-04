@@ -131,10 +131,10 @@ export default function App() {
     return () => trigger.kill()
   }, [fallback, compact])
 
-  const goToSign = (id: PanelId) => {
+  const goToSign = useCallback((id: PanelId) => {
     const section = document.getElementById(id)
     if (section) window.scrollTo({ top: section.offsetTop + section.offsetHeight * .54, behavior: 'smooth' })
-  }
+  }, [])
 
   return <>
     {loading && <LoadingScreen progress={loadProgress} ready={sceneReady} onComplete={finishLoading} onSkip={() => changeView('static', true)} />}
