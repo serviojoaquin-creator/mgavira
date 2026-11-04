@@ -30,7 +30,9 @@ export function CinematicRender({ compact, progress }: { compact: boolean; progr
     })
     const composer = new EffectComposer(gl, target)
     const render = new RenderPass(scene, camera)
-    const ao = hdr ? new SceneOcclusion(scene, camera) : null
+    // Handheld GPUs keep the existing material AO/contact shadows; screen-space
+    // AO would add three passes and multiple floating-point targets.
+    const ao = hdr && !compact ? new SceneOcclusion(scene, camera) : null
     if (ao) {
       ao.updateGtaoMaterial({ radius: .55, thickness: .8, distanceFallOff: .85, scale: 1, samples: 8 })
       ao.updatePdMaterial({ radius: 3, samples: 6, depthPhi: 3, normalPhi: 3 })
@@ -61,20 +63,20 @@ export function CinematicRender({ compact, progress }: { compact: boolean; progr
     composer.addPass(output)
     pipeline.current = { composer, ao, output }
     return () => { pipeline.current = null; render.dispose(); ao?.dispose(); output.dispose(); composer.dispose() }
-  }, [gl, scene, camera])
+  }, [gl, scene, camera, compact])
   useEffect(() => {
     const p = pipeline.current
     if (!p) return
     const range = resolutionRange(size.width, size.height, window.devicePixelRatio, compact)
-    timing.current = { warmup: 0, elapsed: 0, frames: 0, slow: 0, fast: 0, aoCooldown: 0, lastProgress: progress.current, ratio: range.maximum, ...range }
-    setDpr(range.maximum)
-    p.composer.setPixelRatio(range.maximum)
+    timing.current = { warmup: 0, elapsed: 0, frames: 0, slow: 0, fast: 0, aoCooldown: 0, lastProgress: progress.current, ratio: range.initial, ...range }
+    setDpr(range.initial)
+    p.composer.setPixelRatio(range.initial)
     p.composer.setSize(size.width, size.height)
-    p.output.uniforms.texel.value.set(1 / (size.width * range.maximum), 1 / (size.height * range.maximum))
+    p.output.uniforms.texel.value.set(1 / (size.width * range.initial), 1 / (size.height * range.initial))
     if (p.ao) p.ao.enabled = true
     p.output.uniforms.aoStrength.value = p.ao ? .55 : 0
-    gl.domElement.dataset.renderQuality = 'high'
-    gl.domElement.dataset.renderScale = range.maximum.toFixed(2)
+    gl.domElement.dataset.renderQuality = p.ao ? 'high' : 'fluid'
+    gl.domElement.dataset.renderScale = range.initial.toFixed(2)
   }, [size.width, size.height, compact, gl, setDpr, progress])
   useFrame((_, delta) => {
     const p = pipeline.current
@@ -84,30 +86,33 @@ export function CinematicRender({ compact, progress }: { compact: boolean; progr
     const s = timing.current
     const movement = Math.abs(progress.current - s.lastProgress)
     s.lastProgress = progress.current
-    if (document.visibilityState !== 'visible' || delta > .15) { s.elapsed = 0; s.frames = 0; return }
+    if (document.visibilityState !== 'visible') { s.elapsed = 0; s.frames = 0; return }
     s.aoCooldown = Math.max(0, s.aoCooldown - delta)
     s.warmup += delta
-    if (s.warmup < 5) return
-    s.elapsed += delta; s.frames++
-    if (s.elapsed < 2.5) return
+    if (s.warmup < 1.5) return
+    // Long visible frames are precisely when adaptation is needed.
+    s.elapsed += Math.min(delta, .25); s.frames++
+    if (s.elapsed < 1.25) return
     const ms = 1000 * s.elapsed / s.frames
-    s.slow = ms > 25 ? s.slow + 1 : 0
-    s.fast = ms < 18 ? s.fast + 1 : 0
+    s.slow = ms > 22 ? s.slow + 1 : 0
+    s.fast = ms < 17.5 ? s.fast + 1 : 0
     gl.domElement.dataset.sampleFps = (1000 / ms).toFixed(1)
     s.elapsed = 0; s.frames = 0
-    // Resize only when the camera has settled, so target allocation cannot interrupt a scroll.
+    // AO can change during movement. Severe overload must also adapt while scrolling;
+    // waiting for a stationary camera trapped slow phones at the highest setting.
     const decision = qualityDecision(ms, s.slow, s.fast, p.ao?.enabled ?? false, s.ratio, s.minimum, s.maximum)
-    if (!decision || movement > .00008) return
+    if (!decision) return
+    if (movement > .00008 && decision.ratio !== s.ratio && ms < 40) return
     if (decision.ao && !p.ao?.enabled && s.aoCooldown > 0) return
     if (!decision.ao && p.ao?.enabled) s.aoCooldown = 60
     if (p.ao) p.ao.enabled = decision.ao
-    p.output.uniforms.aoStrength.value = decision.ao ? .55 : 0
+    p.output.uniforms.aoStrength.value = decision.ao && p.ao ? .55 : 0
     if (decision.ratio !== s.ratio) {
       s.ratio = decision.ratio
       setDpr(s.ratio); p.composer.setPixelRatio(s.ratio)
       p.output.uniforms.texel.value.set(1 / (size.width * s.ratio), 1 / (size.height * s.ratio))
     }
-    gl.domElement.dataset.renderQuality = decision.ao ? 'high' : 'fluid'
+    gl.domElement.dataset.renderQuality = decision.ao && p.ao ? 'high' : 'fluid'
     gl.domElement.dataset.renderScale = s.ratio.toFixed(2)
     s.slow = 0; s.fast = 0
   }, 1)

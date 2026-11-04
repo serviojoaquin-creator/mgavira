@@ -14,6 +14,15 @@ export function RenderDiagnostics() {
   useFrame(() => { sample.current.beforeRender = performance.now() }, .9)
   useFrame((_, delta) => {
     const s = sample.current
+    if (!gl.domElement.dataset.loadStats && !document.querySelector('.loading-screen')) {
+      const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[]
+      gl.domElement.dataset.loadStats = JSON.stringify({
+        usableMs: Math.round(performance.now()),
+        transferredBytes: resources.reduce((total, resource) => total + resource.transferSize, 0),
+        slowest: resources.filter(resource => resource.name.startsWith(location.origin)).sort((a,b) => b.duration-a.duration)
+          .slice(0, 5).map(resource => ({ path: new URL(resource.name).pathname, ms: Math.round(resource.duration) })),
+      })
+    }
     if (document.visibilityState !== 'visible' || delta > .5) { s.frames = []; s.elapsed = 0; s.cpu = 0; s.animation = 0; return }
     s.warmup += delta
     if (s.warmup < 5) return
