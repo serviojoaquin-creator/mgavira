@@ -46,7 +46,7 @@ function ChapterDetails({ id }: { id: PanelId }) {
     <div className="reason-lines">{reasons.map((item, index) => <div className="reason-line" key={item.title}>
       <span>0{index + 1}</span><div><h3>{item.title}</h3><p>{item.text}</p></div>
     </div>)}</div>
-    <p className="story-footnote"><strong>6 años de experiencia</strong> acompañando a las familias en sus necesidades de traslado.</p>
+    <p className="story-footnote"><strong>7 años de experiencia</strong> acompañando a las familias en sus necesidades de traslado.</p>
   </div>
   return <div className="story-detail story-insurance">
     <p>Trabajamos con {insurancePartners.map(partner => partner.name).join(', ')} y otras obras sociales y prepagas.</p>
@@ -147,7 +147,7 @@ export default function App() {
     {!fallback && <div ref={vignette} className={`scene-vignette${active > 0 ? ' city-view' : ''}`} aria-hidden="true" />}
 
     <header className="site-header">
-      <a href="#inicio" className="brand" aria-label="Transporte MGavira, ir al inicio">
+      <a href="#inicio" className="brand" aria-label="Transportes MGavira, ir al inicio">
         <img className="brand-logo" src="/media/v20/logo.webp" width="76" height="76" alt="" />
         <span className="brand-word"><strong>TRANSPORTES</strong><b>MGAVIRA</b></span>
       </a>
@@ -181,7 +181,7 @@ export default function App() {
             <a className="hero-explore" href="#services">Conocé cómo viajamos <ArrowRight size={18} aria-hidden="true" /></a>
           </div>
         </div>
-        <div className="hero-baseline"><div className="hero-proof"><span><strong>6 años</strong> acompañando familias</span><i /><span><strong>CABA + AMBA</strong> nuestra zona de cobertura</span></div><a className="scroll-cue" href="#services"><span>EL RECORRIDO EMPIEZA ACÁ</span><ArrowDown size={18} aria-hidden="true" /></a></div>
+        <div className="hero-baseline"><div className="hero-proof"><span><strong>7 años</strong> acompañando familias</span><i /><span><strong>CABA + AMBA</strong> nuestra zona de cobertura</span></div><a className="scroll-cue" href="#services"><span>EL RECORRIDO EMPIEZA ACÁ</span><ArrowDown size={18} aria-hidden="true" /></a></div>
         </>}
       </section>
 
@@ -208,12 +208,12 @@ export default function App() {
           </div>
         </div>
         <div id="consulta" className="contact-destination" aria-labelledby="contact-title">
-          <div className="contact-heading"><span>TRANSPORTE MGAVIRA</span><span>HABLEMOS DE TU PRÓXIMO VIAJE <ArrowUpRight size={16} aria-hidden="true" /></span></div>
+          <div className="contact-heading"><span>TRANSPORTES MGAVIRA</span><span>HABLEMOS DE TU PRÓXIMO VIAJE <ArrowUpRight size={16} aria-hidden="true" /></span></div>
           <div className="contact-shell">
             <div className="contact-intro">
               <span className="eyebrow"><span className="eyebrow-line" /> ESTAMOS CERCA</span>
-              <h2 id="contact-title">Tu próximo<br />recorrido,<br /><em>lo coordinamos juntos.</em></h2>
-              <p>Contanos adónde necesitás ir. Revisamos el recorrido y la disponibilidad para acompañarte.</p>
+              <h2 id="contact-title">Tu próximo<br />trayecto<br /><em>lo coordinamos juntos.</em></h2>
+              <p>Contanos adónde necesitás ir. Revisamos el traslado y la disponibilidad para acompañarte.</p>
               <a className="contact-direct" href={whatsapp(messages.main)} target="_blank" rel="noopener noreferrer"><MessageCircle size={23} aria-hidden="true" /><span>¿Preferís hablar directamente?<strong>Escribinos por WhatsApp <ArrowUpRight size={18} aria-hidden="true" /></strong></span></a>
               <div className="contact-facts">
                 <div><MapPin size={17} aria-hidden="true" /><span>{contact.coverage}</span></div>
@@ -230,7 +230,7 @@ export default function App() {
 
     {!fallback && <div className={`journey-index${active === 5 || active === 0 ? ' arrival-hidden' : ''}`} aria-hidden="true"><span>RECORRIDO</span><div className="index-bars">{Array.from({ length: 6 }, (_, i) => <i className={i === active ? 'active' : ''} key={i} />)}</div><b>0{active + 1} / 06</b></div>}
     <a className={`floating-whatsapp${active === 5 || active === 0 || (!fallback && showJourneyNotice) ? ' arrival-hidden' : ''}`} href={whatsapp(messages.main)} target="_blank" rel="noopener noreferrer" aria-label="Consultar por WhatsApp"><MessageCircle size={21} aria-hidden="true" /><span>WhatsApp</span></a>
-    <footer className="site-footer"><span>© {new Date().getFullYear()} Transporte MGavira</span><span>Traslados en CABA y AMBA · Atención cercana, recorridos responsables.</span></footer>
+    <footer className="site-footer"><span>© {new Date().getFullYear()} Transportes MGavira</span><span>Traslados en CABA y AMBA · Atención cercana, recorridos responsables.</span></footer>
     </div>
   </>
 }
