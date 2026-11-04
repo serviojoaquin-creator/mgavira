@@ -10,7 +10,7 @@ export type PanelId = 'services' | 'coverage' | 'why' | 'insurance'
 export const serviceOverview = {
   title: 'Traslados a terapias, CET y colegios',
   paragraphs: [
-    'Acompañamos a cada persona en sus traslados a terapias, centros educativos terapéuticos (CET) e instituciones escolares, brindando un servicio organizado y adaptado a las necesidades de cada pasajero y su familia.',
+    'Acompañamos a cada persona en sus traslados a terapias, Centros Educativos Terapéuticos (CET) e instituciones escolares, brindando un servicio organizado y adaptado a las necesidades de cada pasajero y su familia.',
     'Coordinamos horarios y recorridos con responsabilidad, compromiso y comunicación directa para que cada viaje sea una experiencia tranquila y segura.',
   ],
   coverage: 'Trabajamos con obras sociales y prepagas.',
@@ -32,7 +32,7 @@ export const chapters: { id: PanelId; eyebrow: string; sign: string; heading: st
   {
     id: 'why', eyebrow: '03 / NOSOTROS', sign: '¿POR QUÉ MGAVIRA?',
     heading: 'Mucho más que un traslado.',
-    summary: 'Seis años acompañando a las familias con empatía, organización y compromiso en cada viaje.',
+    summary: 'Siete años acompañando a las familias con empatía, organización y compromiso en cada viaje.',
     cta: 'Conocé cómo trabajamos',
   },
   {
@@ -68,8 +68,8 @@ export function whatsapp(message: string) {
 }
 
 export const messages = {
-  main: 'Hola, buen día. Me comunico desde la página web de Transporte MGavira. Quisiera consultar por un servicio de traslado.',
-  services: 'Hola, quisiera consultar por un servicio de traslado de Transporte MGavira.',
+  main: 'Hola, buen día. Me comunico desde la página web de Transportes MGavira. Quisiera consultar por un servicio de traslado.',
+  services: 'Hola, quisiera consultar por un servicio de traslado de Transportes MGavira.',
   coverage: 'Hola, quisiera consultar si realizan traslados en mi zona y conocer la disponibilidad.',
   insurance: 'Hola, quisiera consultar por un traslado mediante mi obra social o prepaga.',
 } as const
